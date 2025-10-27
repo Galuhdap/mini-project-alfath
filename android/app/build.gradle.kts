@@ -37,6 +37,27 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    flavorDimensions += listOf("default")
+
+    // 🔥 Definisikan semua flavor (dev, staging, production)
+    productFlavors {
+        create("dev") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("staging") {
+            dimension = "default"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+        }
+        create("production") {
+            dimension = "default"
+            applicationIdSuffix = ".production"
+            versionNameSuffix = "-production"
+        }
+    }
 }
 
 flutter {
