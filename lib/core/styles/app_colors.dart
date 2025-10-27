@@ -4,6 +4,17 @@ class AppColors {
 
   static const Color colorPrimary = Color(0xff2DA3D6);
 
+  static const Color colorGeneralBlack = Color(0xff0F172A);
+  static const Color colorGeneralGrey = Color(0xff674AA);
+
+  static const Color colorGeneralTittleError = Color(0xff6974AA);
+  static const Color colorGeneralBody = Color(0xff141A51);
+
+  static const Color colorGeneralWhite = Color(0xffFFFFFF);
+
+  static const Color colorGeneralOutline = Color(0xffE7ECFA);
+  static const Color colorGeneralPlaceHolder = Color(0xffB0BBE5);
+
   //Neuturals
   static const Color colorNeutrals500 = Color(0xFFF222222);
   static const Color colorNeutrals400 = Color(0xFFF787878);
@@ -26,6 +37,9 @@ class AppColors {
   static const Color colorExtraColorShadow = Color(0xFFF313131);
   static const Color colorExtraColorShowBottom = Color(0xFFFD9D9D9);
 
+
+  //success
+  static const Color colorSuccess200 = Color(0xff38C43D);
   //warnging
   static const Color colorWarning200 = Color(0xFFFFF8282);
   static const Color colorWarning100 = Color(0xFFFFF3A3A);

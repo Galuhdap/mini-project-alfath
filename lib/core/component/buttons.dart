@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mini_project_alfath/config/theme_config.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
@@ -56,63 +55,67 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return style == ButtonStyle.filled
-        ? ElevatedButton(
-            onPressed: disabled ? null : onPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: color,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
+    return SizedBox(
+      width: width,
+      height: height,
+      child: style == ButtonStyle.filled
+          ? ElevatedButton(
+              onPressed: disabled ? null : onPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: iconRight != null
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
+                children: [
+                  icon ?? const SizedBox.shrink(),
+                  if (icon != null) const SizedBox(width: 10.0),
+                  Text(
+                    label,
+                    style: ThemeConfig.labelLarge.copyWith(
+                      color: textColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                  iconRight ?? const SizedBox.shrink(),
+                  if (iconRight != null) const SizedBox(width: 10.0),
+                ],
+              ),
+            )
+          : OutlinedButton(
+              onPressed: disabled ? null : onPressed,
+              style: OutlinedButton.styleFrom(
+                backgroundColor: color,
+                side: BorderSide(color: borderColor ?? AppColors.colorPrimary),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: iconRight != null
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
+                children: [
+                  icon ?? const SizedBox.shrink(),
+                  if (icon != null) const SizedBox(width: 10.0),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.w700,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  iconRight ?? const SizedBox.shrink(),
+                  if (iconRight != null) const SizedBox(width: 10.0),
+                ],
               ),
             ),
-            child: Row(
-              mainAxisAlignment: iconRight != null
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.center,
-              children: [
-                icon ?? const SizedBox.shrink(),
-                if (icon != null) const SizedBox(width: 10.0),
-                Text(
-                  label,
-                  style: ThemeConfig.labelLarge.copyWith(
-                    color: textColor,
-                    fontSize: 14,
-                  ),
-                ),
-                iconRight ?? const SizedBox.shrink(),
-                if (iconRight != null) const SizedBox(width: 10.0),
-              ],
-            ),
-          )
-        : OutlinedButton(
-            onPressed: disabled ? null : onPressed,
-            style: OutlinedButton.styleFrom(
-              backgroundColor: color,
-              side: BorderSide(color: borderColor ?? AppColors.colorPrimary),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: iconRight != null
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.center,
-              children: [
-                icon ?? const SizedBox.shrink(),
-                if (icon != null) const SizedBox(width: 10.0),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w700,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                iconRight ?? const SizedBox.shrink(),
-                if (iconRight != null) const SizedBox(width: 10.0),
-              ],
-            ),
-          );
+    );
   }
 }
