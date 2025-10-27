@@ -2,27 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
 
-  static const Color colorPrimary900 = Color(0xffF99417);
-  static const Color colorPrimary800 = Color(0xffFA9F2E);
-  static const Color colorPrimary700 = Color(0xffFAA945);
-  static const Color colorPrimary600 = Color(0xffFBB45D);
-  static const Color colorPrimary500 = Color(0xffFBBF74);
-  static const Color colorPrimary400 = Color(0xffFCC98B);
-  static const Color colorPrimary300 = Color(0xffFDD4A2);
-  static const Color colorPrimary200 = Color(0xffFDDFB9);
-  static const Color colorPrimary100 = Color(0xffFEEAD1);
-  static const Color colorPrimary50 = Color(0xffFEF4E8);
-
-  static const Color colorBlueGrey900 = Color(0xff0F172A);
-  static const Color colorBlueGrey800 = Color(0xff1E293B);
-  static const Color colorBlueGrey700 = Color(0xff334155);
-  static const Color colorBlueGrey600 = Color(0xff475569);
-  static const Color colorBlueGrey500 = Color(0xff64748B);
-  static const Color colorBlueGrey400 = Color(0xff94A3B8);
-  static const Color colorBlueGrey300 = Color(0xffCBD5E1);
-  static const Color colorBlueGrey200 = Color(0xffE2E8F0);
-  static const Color colorBlueGrey100 = Color(0xffEBF0F5);
-  static const Color colorBlueGrey50 = Color(0xffF8FAFC);
+  static const Color colorPrimary = Color(0xff2DA3D6);
 
   //Neuturals
   static const Color colorNeutrals500 = Color(0xFFF222222);

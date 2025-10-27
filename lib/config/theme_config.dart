@@ -3,8 +3,7 @@ import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 
 class ThemeConfig {
   // light mode
-  static Color betawiGreen50 = Color(0xFF00B348);
-  static Color betawiGreen80 = Color(0xFFD9F4E4);
+  static Color interPrimary = Color(0xFF2DA3D6);
   static Color red50 = Color(0xFFFF222B);
   static Color red80 = Color(0xFFFFDEDF);
   static Color neutral0 = Color(0xFF2B2D2F);
@@ -38,7 +37,7 @@ class ThemeConfig {
     fontSize: FontSize.s32,
     fontWeight: FontWeight.w700,
     height: 1.3,
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Inter",
     leadingDistribution: TextLeadingDistribution.even,
   );
 
@@ -46,7 +45,7 @@ class ThemeConfig {
     fontSize: FontSize.s20,
     fontWeight: FontWeight.w600,
     height: 1.3,
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Inter",
     leadingDistribution: TextLeadingDistribution.even,
   );
 
@@ -54,7 +53,7 @@ class ThemeConfig {
     fontSize: FontSize.s14,
     fontWeight: FontWeight.w500,
     height: 1.3,
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Inter",
     leadingDistribution: TextLeadingDistribution.even,
   );
 
@@ -62,7 +61,7 @@ class ThemeConfig {
     fontSize: FontSize.s16,
     fontWeight: FontWeight.w700,
     height: 1.3,
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Inter",
     leadingDistribution: TextLeadingDistribution.even,
   );
 
@@ -70,7 +69,7 @@ class ThemeConfig {
     fontSize: FontSize.s14,
     fontWeight: FontWeight.w500,
     height: 1.3,
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Inter",
     leadingDistribution: TextLeadingDistribution.even,
   );
 
@@ -78,7 +77,7 @@ class ThemeConfig {
     fontSize: FontSize.s14,
     fontWeight: FontWeight.w700,
     height: 1.3,
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Inter",
     leadingDistribution: TextLeadingDistribution.even,
   );
 
@@ -86,7 +85,7 @@ class ThemeConfig {
     fontSize: FontSize.s14,
     fontWeight: FontWeight.w400,
     height: 1.3,
-    fontFamily: "PlusJakartaSans",
+    fontFamily: "Inter",
     leadingDistribution: TextLeadingDistribution.even,
   );
 }

@@ -84,7 +84,7 @@ flutter:
     - assets/icons/
 
   fonts:
-    - family: PlusJakartaSans
+    - family: Inter
       fonts:
         - asset: assets/fonts/Inter-reguler.ttf
         - asset: assets/fonts/Inter-Italic.ttf

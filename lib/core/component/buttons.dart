@@ -11,7 +11,7 @@ class Button extends StatelessWidget {
     required this.onPressed,
     required this.label,
     this.style = ButtonStyle.filled,
-    this.color = AppColors.colorPrimary900,
+    this.color = AppColors.colorPrimary,
     this.textColor = Colors.white,
     this.width = double.infinity,
     this.height = 60.0,
@@ -29,7 +29,7 @@ class Button extends StatelessWidget {
     required this.label,
     this.style = ButtonStyle.outlined,
     this.color = AppColors.colorNeutrals0,
-    this.textColor = AppColors.colorPrimary900,
+    this.textColor = AppColors.colorPrimary,
     this.width = double.infinity,
     this.height = 50.0,
     this.borderRadius = 8.0,
@@ -88,7 +88,7 @@ class Button extends StatelessWidget {
             onPressed: disabled ? null : onPressed,
             style: OutlinedButton.styleFrom(
               backgroundColor: color,
-              side: BorderSide(color: borderColor ?? AppColors.colorPrimary900),
+              side: BorderSide(color: borderColor ?? AppColors.colorPrimary),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
