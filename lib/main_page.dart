@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/bloc/connectivity_bloc.dart';
-import 'package:mini_project_alfath/presentation/error/page/error_page.dart';
+import 'package:mini_project_alfath/presentation/vacancy/page/detail_vacancy_page.dart';
 import 'package:mini_project_alfath/presentation/vacancy/page/vacancy_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -24,12 +24,10 @@ class MainPage extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         home: VacancyPage(),
+
         routes: {
-           '/vacancy': (context) => const VacancyPage(),
-          // '/register': (context) => const RegisterPage(),
-          // '/home': (context) => const HomePage(),
-          // '/booking': (context) => const BookingPage(),
-          // '/profile': (context) => const ProfilePage(),
+          '/vacancy': (context) => const VacancyPage(),
+          '/detail/vacancy': (context) => const DetailVacancyPage(),
         },
       ),
     );

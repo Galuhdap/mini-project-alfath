@@ -5,7 +5,7 @@ class AppColors {
   static const Color colorPrimary = Color(0xff2DA3D6);
 
   static const Color colorGeneralBlack = Color(0xff0F172A);
-  static const Color colorGeneralGrey = Color(0xff674AA);
+  static const Color colorGeneralGrey = Color(0xfff6974AA);
 
   static const Color colorGeneralTittleError = Color(0xff6974AA);
   static const Color colorGeneralBody = Color(0xff141A51);
@@ -39,7 +39,8 @@ class AppColors {
 
 
   //success
-  static const Color colorSuccess200 = Color(0xff38C43D);
+  static const Color colorSuccess = Color(0xff38C43D);
+  static const Color colorSuccessBgWeak = Color(0xfffF8FFF5);
   //warnging
   static const Color colorWarning200 = Color(0xFFFFF8282);
   static const Color colorWarning100 = Color(0xFFFFF3A3A);

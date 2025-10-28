@@ -17,15 +17,22 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/filter.svg
+  SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
+
   /// File path: assets/icons/reload.svg
   SvgGenImage get reload => const SvgGenImage('assets/icons/reload.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [reload];
+  List<SvgGenImage> get values => [filter, reload];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/company-logo.png
+  AssetGenImage get companyLogo =>
+      const AssetGenImage('assets/images/company-logo.png');
 
   /// File path: assets/images/error-404.png
   AssetGenImage get error404 =>
@@ -40,7 +47,12 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/no-connection.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [error404, error504, noConnection];
+  List<AssetGenImage> get values => [
+    companyLogo,
+    error404,
+    error504,
+    noConnection,
+  ];
 }
 
 class Assets {
