@@ -1,3 +1,5 @@
 class NetworkConstants {
-  static const String BASE_URL_DEV = "https://a93da71791d9.ngrok-free.app/api/v1"; 
+  static const String BASE_URL_PROD = "https://kkloker.partnercoding.com/api"; 
+  static const String BASE_URL_STAGGING = "https://kkloker.partnercoding.com/api"; 
+  static const String BASE_URL_DEV = "https://kkloker.partnercoding.com/api"; 
   }

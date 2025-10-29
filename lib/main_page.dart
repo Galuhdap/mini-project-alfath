@@ -1,7 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mini_project_alfath/data/service/job_seeker_service.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/bloc/connectivity_bloc.dart';
+import 'package:mini_project_alfath/presentation/vacancy/bloc/bloc/work_bloc.dart';
 import 'package:mini_project_alfath/presentation/vacancy/page/detail_vacancy_page.dart';
 import 'package:mini_project_alfath/presentation/vacancy/page/vacancy_page.dart';
 
@@ -17,9 +19,9 @@ class MainPage extends StatelessWidget {
               ConnectivityBloc(Connectivity())
                 ..add(const ConnectivityEvent.checkConnection()),
         ),
-        // BlocProvider(
-        //   create: (context) => BarberShopBloc(BarberShopRemoteDatasource()),
-        // ),
+        BlocProvider(
+          create: (context) => WorkBloc(JobSeekerService()),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
