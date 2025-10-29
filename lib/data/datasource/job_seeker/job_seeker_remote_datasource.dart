@@ -35,7 +35,7 @@ class JobSeekerRemoteDatasource {
       final response = await _client.get(
         uri,
         headers: {
-          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9qb2JzZWVrZXJcL3Bla2VyamFhblwvZ2V0QWN0aXZlUGVrZWphYW4iLCJpYXQiOjE3NjE1MzQ4MTMsImV4cCI6MTc2MTcxMzM0OCwibmJmIjoxNzYxNjI2OTQ4LCJqdGkiOiJLV2xpamZmTGFxYWc2SlFXIiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.72wUcMHTHXBhYjh-BbJK5Bv9VGbPEEPLPXz3nmhkcQE', // <-- ini bagian penting
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9qb2JzZWVrZXJcL3Bla2VyamFhblwvZ2V0QWN0aXZlUGVrZWphYW4iLCJpYXQiOjE3NjE1MzQ4MTMsImV4cCI6MTc2MTgxNDAzOSwibmJmIjoxNzYxNzI3NjM5LCJqdGkiOiJYclV4WGFrNm5Ia044WlJ4Iiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.nB83Utvqk6JeFZhp2CXFuG-oaGjPyolGUpVdVKY5_OA', // <-- ini bagian penting
           'Content-Type': 'application/json',
         },
       );

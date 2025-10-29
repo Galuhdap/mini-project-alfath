@@ -1,8 +1,3 @@
-// To parse this JSON data, do
-//
-//     final getJobSeeker = getJobSeekerFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 GetJobSeeker getJobSeekerFromJson(String str) => GetJobSeeker.fromJson(json.decode(str));
