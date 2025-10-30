@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mini_project_alfath/config/theme_config.dart';
 import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
@@ -18,16 +17,17 @@ class ErrorHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(
-          image,
-          width: 200,
-          height: 200,
-        ),
+        Image.asset(image, width: 200, height: 200),
         AppSizes.s16.height,
-        Text(
-         message,
-          style: ThemeConfig.bodyMedium.copyWith(
-            color: AppColors.colorGeneralTittleError,
+        SizedBox(
+          width: 250,
+          height: 50,
+          child: Text(
+            message,
+            style: ThemeConfig.bodyMedium.copyWith(
+              color: AppColors.colorGeneralTittleError,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
       ],

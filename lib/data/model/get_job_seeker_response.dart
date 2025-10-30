@@ -185,47 +185,49 @@ class Perusahaan {
 }
 
 class Meta {
-    final int currentPage;
-    final String firstPageUrl;
-    final int from;
-    final int lastPage;
-    final String lastPageUrl;
-    final dynamic nextPageUrl;
-    final String path;
-    final int perPage;
-    final dynamic prevPageUrl;
-    final int to;
-    final int total;
+  final int? currentPage;
+  final String? firstPageUrl;
+  final int? from;
+  final int? lastPage;
+  final String? lastPageUrl;
+  final String? nextPageUrl;
+  final String? path;
+  final int? perPage;
+  final String? prevPageUrl;
+  final int? to;
+  final int? total;
 
-    Meta({
-        required this.currentPage,
-        required this.firstPageUrl,
-        required this.from,
-        required this.lastPage,
-        required this.lastPageUrl,
-        required this.nextPageUrl,
-        required this.path,
-        required this.perPage,
-        required this.prevPageUrl,
-        required this.to,
-        required this.total,
-    });
+  Meta({
+    this.currentPage,
+    this.firstPageUrl,
+    this.from,
+    this.lastPage,
+    this.lastPageUrl,
+    this.nextPageUrl,
+    this.path,
+    this.perPage,
+    this.prevPageUrl,
+    this.to,
+    this.total,
+  });
 
-    factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-        currentPage: json["current_page"],
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
-    );
+  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+        currentPage: json["current_page"] as int?,
+        firstPageUrl: json["first_page_url"] as String?,
+        from: json["from"] as int?,
+        lastPage: json["last_page"] as int?,
+        lastPageUrl: json["last_page_url"] as String?,
+        nextPageUrl: json["next_page_url"] as String?,
+        path: json["path"] as String?,
+        perPage: json["per_page"] is String
+            ? int.tryParse(json["per_page"])
+            : json["per_page"] as int?,
+        prevPageUrl: json["prev_page_url"] as String?,
+        to: json["to"] as int?,
+        total: json["total"] as int?,
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "current_page": currentPage,
         "first_page_url": firstPageUrl,
         "from": from,
@@ -237,7 +239,7 @@ class Meta {
         "prev_page_url": prevPageUrl,
         "to": to,
         "total": total,
-    };
+      };
 }
 
 class EnumValues<T> {

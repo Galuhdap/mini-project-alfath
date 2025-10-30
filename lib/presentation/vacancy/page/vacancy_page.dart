@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mini_project_alfath/config/theme_config.dart';
+import 'package:mini_project_alfath/core/assets/assets.gen.dart';
 import 'package:mini_project_alfath/core/component/buttons.dart';
 import 'package:mini_project_alfath/core/component/dialog/show_bottom_dialog.dart';
 import 'package:mini_project_alfath/core/extensions/build_context_ext.dart';
+import 'package:mini_project_alfath/core/extensions/parse_selary_ext.dart';
 import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
@@ -15,6 +16,8 @@ import 'package:mini_project_alfath/presentation/error/page/error_page.dart';
 import 'package:mini_project_alfath/presentation/vacancy/bloc/bloc/work_bloc.dart';
 import 'package:mini_project_alfath/presentation/vacancy/page/detail_vacancy_page.dart';
 import 'package:mini_project_alfath/presentation/vacancy/widget/card_job_vacancy_widget.dart';
+import 'package:mini_project_alfath/presentation/vacancy/widget/card_type_work_widget.dart';
+import 'package:mini_project_alfath/presentation/vacancy/widget/job_vacancy_simmer.dart';
 import 'package:mini_project_alfath/presentation/vacancy/widget/search_job_vacancy_widget.dart';
 
 class VacancyPage extends StatefulWidget {
@@ -29,11 +32,24 @@ class _VacancyPageState extends State<VacancyPage> {
   bool _isSearchVisible = true;
   double _lastOffset = 0.0;
   late final PagingController<int, Datum> _pagingController;
+  TextEditingController searchController = TextEditingController();
 
-  String? selectedValue;
+  String? _searchQuery;
+  String? _selectedJobType; // FullTime, PartTime, Internship
+  String? _selectedMinValue;
+  String? _selectedMaxValue;
+  int? _minSalary;
+  int? _maxSalary;
 
-  // Daftar item dropdown
-  final List<String> items = ['Rp. 1 Jt', '3 jt', '5jt'];
+  // dropdown items
+  final List<String> items = [
+    'Rp. 0 Jt',
+    'Rp. 1 Jt',
+    'Rp. 2 Jt',
+    'Rp. 3 Jt',
+    'Rp. 5 Jt',
+    'Rp. 10 Jt',
+  ];
 
   @override
   void initState() {
@@ -44,19 +60,26 @@ class _VacancyPageState extends State<VacancyPage> {
       // fungsi ini menentukan page berikutnya
       getNextPageKey: (state) =>
           state.lastPageIsEmpty ? null : state.nextIntPageKey,
-      // fungsi ini dipanggil otomatis saat page diminta
       fetchPage: (pageKey) async {
         final bloc = context.read<WorkBloc>();
         final result = await bloc.service.getActiveJobs(
           page: pageKey,
-          minimalGaji: 0,
-          maksimalGaji: 0,
-          jenis: 'Nasional',
+          minimalGaji: _minSalary ?? 0,
+          maksimalGaji: _maxSalary ?? 0,
+          jenis: _selectedJobType ?? 'Nasional',
+          search: _searchQuery ?? '',
+          tipe: '',
         );
 
         return result.fold(
-          (error) => throw Exception(error),
-          (data) => data.data,
+          (left) {
+        throw Exception(left);
+          },
+          (right) {
+        
+            final list = right.data;
+            return list;
+          },
         );
       },
     );
@@ -115,7 +138,14 @@ class _VacancyPageState extends State<VacancyPage> {
                       curve: Curves.easeInOut,
                       child: _isSearchVisible
                           ? SearchJobVacancyWidget(
-                              controller: TextEditingController(),
+                              controller: searchController,
+                              onChanged: (value) {
+                                setState(() {
+                                  _searchQuery = value;
+                                });
+                                _pagingController
+                                    .refresh(); // panggil ulang data
+                              },
                               onTap: () {
                                 showModalBottom(
                                   context,
@@ -137,26 +167,80 @@ class _VacancyPageState extends State<VacancyPage> {
                                               ),
                                         ),
                                         AppSizes.s12.height,
-                                        Row(
-                                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CardTypeWorkWidget(label: 'Semua'),
-                                            AppSizes.s8.width,
-                                            CardTypeWorkWidget(
-                                              label: 'FullTime',
-                                            ),
-                                            AppSizes.s8.width,
-                                            CardTypeWorkWidget(
-                                              label: 'PartTime',
-                                            ),
-                                          ],
-                                        ),
-                                        AppSizes.s8.height,
-                                        SizedBox(
-                                          width: 100,
-                                          child: CardTypeWorkWidget(
-                                            label: 'Internship',
-                                          ),
+                                        StatefulBuilder(
+                                          builder: (context, setModalState) {
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    CardTypeWorkWidget(
+                                                      label: 'Semua',
+                                                      isSelected:
+                                                          _selectedJobType ==
+                                                          'Semua',
+                                                      onTap: () {
+                                                        setModalState(
+                                                          () =>
+                                                              _selectedJobType =
+                                                                  'Semua',
+                                                        );
+                                                        print(_selectedJobType);
+                                                      },
+                                                    ),
+                                                    AppSizes.s8.width,
+                                                    CardTypeWorkWidget(
+                                                      label: 'FullTime',
+                                                      isSelected:
+                                                          _selectedJobType ==
+                                                          'FullTime',
+                                                      onTap: () {
+                                                        setModalState(
+                                                          () =>
+                                                              _selectedJobType =
+                                                                  'FullTime',
+                                                        );
+                                                        print(_selectedJobType);
+                                                      },
+                                                    ),
+                                                    AppSizes.s8.width,
+                                                    CardTypeWorkWidget(
+                                                      label: 'PartTime',
+                                                      isSelected:
+                                                          _selectedJobType ==
+                                                          'PartTime',
+                                                      onTap: () {
+                                                        setModalState(
+                                                          () =>
+                                                              _selectedJobType =
+                                                                  'PartTime',
+                                                        );
+                                                        print(_selectedJobType);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                AppSizes.s8.height,
+                                                SizedBox(
+                                                  width: 120,
+                                                  child: CardTypeWorkWidget(
+                                                    label: 'Internship',
+                                                    isSelected:
+                                                        _selectedJobType ==
+                                                        'Internship',
+                                                    onTap: () {
+                                                      setModalState(
+                                                        () => _selectedJobType =
+                                                            'Internship',
+                                                      );
+                                                      print(_selectedJobType);
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
                                         AppSizes.s20.height,
                                         Row(
@@ -176,37 +260,36 @@ class _VacancyPageState extends State<VacancyPage> {
                                                         ),
                                                   ),
                                                   AppSizes.s12.height,
-                                                  Container(
-                                                    width: double.infinity,
-                                                    height: 48,
-                                                    child: DropdownButtonFormField<String>(
-                                                      value: selectedValue,
-                                                      decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                8,
-                                                              ),
-                                                        ),
-                                                        contentPadding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 12,
-                                                              vertical: 8,
+                                                  DropdownButtonFormField<
+                                                    String
+                                                  >(
+                                                    value: _selectedMinValue,
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              8,
                                                             ),
                                                       ),
-                                                      hint: const Text("Rp. 0"),
-                                                      items: items.map((value) {
-                                                        return DropdownMenuItem(
-                                                          value: value,
-                                                          child: Text(value),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          selectedValue = value;
-                                                        });
-                                                      },
+                                                      contentPadding:
+                                                          const EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 8,
+                                                          ),
                                                     ),
+                                                    hint: const Text("Rp. 0"),
+                                                    items: items.map((value) {
+                                                      return DropdownMenuItem(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _selectedMinValue =
+                                                            value;
+                                                      });
+                                                    },
                                                   ),
                                                 ],
                                               ),
@@ -227,37 +310,36 @@ class _VacancyPageState extends State<VacancyPage> {
                                                         ),
                                                   ),
                                                   AppSizes.s12.height,
-                                                  Container(
-                                                    width: double.infinity,
-                                                    height: 48,
-                                                    child: DropdownButtonFormField<String>(
-                                                      value: selectedValue,
-                                                      decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                8,
-                                                              ),
-                                                        ),
-                                                        contentPadding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 12,
-                                                              vertical: 8,
+                                                  DropdownButtonFormField<
+                                                    String
+                                                  >(
+                                                    value: _selectedMaxValue,
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              8,
                                                             ),
                                                       ),
-                                                      hint: const Text("Rp. 0"),
-                                                      items: items.map((value) {
-                                                        return DropdownMenuItem(
-                                                          value: value,
-                                                          child: Text(value),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          selectedValue = value;
-                                                        });
-                                                      },
+                                                      contentPadding:
+                                                          const EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 8,
+                                                          ),
                                                     ),
+                                                    hint: const Text("Rp. 0"),
+                                                    items: items.map((value) {
+                                                      return DropdownMenuItem(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _selectedMaxValue =
+                                                            value;
+                                                      });
+                                                    },
                                                   ),
                                                 ],
                                               ),
@@ -268,7 +350,20 @@ class _VacancyPageState extends State<VacancyPage> {
                                         Button.filled(
                                           height: AppSizes.s45,
                                           borderRadius: AppSizes.s12,
-                                          onPressed: (){}, label: 'Filter'),
+                                          onPressed: () {
+                                            setState(() {
+                                              _minSalary = parseSalary(
+                                                _selectedMinValue,
+                                              );
+                                              _maxSalary = parseSalary(
+                                                _selectedMaxValue,
+                                              );
+                                            });
+                                            _pagingController.refresh();
+                                            context.pop();
+                                          },
+                                          label: 'Filter',
+                                        ),
                                         AppSizes.s20.height,
                                       ],
                                     ),
@@ -279,11 +374,11 @@ class _VacancyPageState extends State<VacancyPage> {
                           : const SizedBox.shrink(),
                     ),
                     Expanded(
-                      // gunakan ValueListenableBuilder untuk listen state
                       child: ValueListenableBuilder<PagingState<int, Datum>>(
                         valueListenable: _pagingController,
                         builder: (context, state, _) {
                           return PagedListView<int, Datum>(
+                            scrollController: _scrollController,
                             state: state,
                             fetchNextPage: _pagingController.fetchNextPage,
                             builderDelegate: PagedChildBuilderDelegate<Datum>(
@@ -304,20 +399,47 @@ class _VacancyPageState extends State<VacancyPage> {
                                 );
                               },
                               firstPageProgressIndicatorBuilder: (_) =>
-                                  const Center(
-                                    child: CircularProgressIndicator(),
+                                  SizedBox(
+                                    width: 200.0,
+                                    height: 100.0,
+                                    child: ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: 8,
+                                      itemBuilder: (_, __) =>
+                                          const CardJobVacancyShimmerWidget(),
+                                    ),
                                   ),
-                              newPageProgressIndicatorBuilder: (_) =>
-                                  const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                              noItemsFoundIndicatorBuilder: (_) => const Center(
-                                child: Text('Tidak ada lowongan ditemukan'),
+                              newPageProgressIndicatorBuilder: (_) => SizedBox(
+                                width: 200.0,
+                                height: 100.0,
+                                child: ListView.builder(
+                                  itemCount: 5,
+                                  itemBuilder: (context, index) =>
+                                      const CardJobVacancyShimmerWidget(),
+                                ),
                               ),
-                              firstPageErrorIndicatorBuilder: (_) =>
-                                  const Center(
-                                    child: Text('Gagal memuat data'),
-                                  ),
+                              noItemsFoundIndicatorBuilder: (_) =>  Center(
+                                child: ErrorPage(
+                                  isNoConnection: false,
+                                  message:
+                                      'Lowongan sudah dihapus atau tidak tersedia',
+                                  image: Assets.images.error404.path,
+                                 
+                                ),
+                              ),
+
+                              firstPageErrorIndicatorBuilder: (_) => Center(
+                                child: ErrorPage(
+                                  message:
+                                      'Terdapat kesalahan pada server. Silakan muat ulang!',
+                                  image: Assets.images.error504.path,
+                                  onPressed: () {
+                                    _pagingController.refresh();
+                                  },
+                                ),
+                              ),
                             ),
                           );
                         },
@@ -329,35 +451,14 @@ class _VacancyPageState extends State<VacancyPage> {
             );
           },
           disconnected: () {
-            return const ErrorPage();
+            return ErrorPage(
+              isNoConnection: false,
+              message: 'Tidak terhubung ke internet.',
+              image: Assets.images.noConnection.path,
+            );
           },
         );
       },
-    );
-  }
-}
-
-class CardTypeWorkWidget extends StatelessWidget {
-  final String label;
-  const CardTypeWorkWidget({super.key, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 16),
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: AppColors.colorGeneralOutline),
-        borderRadius: BorderRadius.circular(AppSizes.s16),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: ThemeConfig.bodyMedium.copyWith(
-            fontWeight: FontWeight.w500,
-            color: AppColors.colorGeneralGrey,
-          ),
-        ),
-      ),
     );
   }
 }

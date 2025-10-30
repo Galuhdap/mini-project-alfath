@@ -15,6 +15,7 @@ class JobSeekerService {
     int? maksimalGaji,
     String? search,
     String? jenis,
+    String? tipe,
   }) async {
     try {
       final result = await _remoteDatasource.getActiveJobs(
@@ -23,9 +24,11 @@ class JobSeekerService {
         maksimalGaji: maksimalGaji,
         search: search,
         jenis: jenis,
+        tipe: tipe
       );
 
       // Langsung kembalikan Either (kiri: error, kanan: data)
+      //print('result service: $result');
       return result;
     } catch (e) {
       return Left('Unexpected error: ${e.toString()}');

@@ -9,6 +9,7 @@ class WorkEvent with _$WorkEvent {
     int? maksimalGaji,
     String? search,
     String? jenis,
+    String? tipe,
   }) = _FetchJobs;
 
   const factory WorkEvent.loadMore({

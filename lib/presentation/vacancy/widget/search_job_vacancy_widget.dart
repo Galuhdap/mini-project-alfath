@@ -9,11 +9,13 @@ import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 class SearchJobVacancyWidget extends StatelessWidget {
   final TextEditingController controller;
   final Function() onTap;
+  final Function(String)? onChanged;
 
   const SearchJobVacancyWidget({
     super.key,
     required this.controller,
     required this.onTap,
+    required this.onChanged,
   });
 
   @override
@@ -25,6 +27,7 @@ class SearchJobVacancyWidget extends StatelessWidget {
           child: Container(
             height: 44,
             child: TextField(
+              onChanged: onChanged,
               controller: controller,
               decoration: InputDecoration(
                 filled: true,

@@ -23,6 +23,7 @@ class WorkBloc extends Bloc<WorkEvent, WorkState> {
       minimalGaji: event.minimalGaji,
       maksimalGaji: event.maksimalGaji,
       jenis: event.jenis,
+      tipe: event.tipe,
     );
 
     result.fold((error) => emit(WorkState.error(error)), (data) {
@@ -36,16 +37,16 @@ class WorkBloc extends Bloc<WorkEvent, WorkState> {
       final total = meta.total;
 
       // cek apakah sudah sampai halaman terakhir
-      final bool hasReachedMax = currentPage >= lastPage;
+     // final bool hasReachedMax = currentPage >= lastPage;
 
       emit(
         WorkState.loaded(
           jobs: jobs,
-          hasReachedMax: hasReachedMax,
-          currentPage: currentPage,
-          lastPage: lastPage,
-          perPage: perPage,
-          total: total,
+          hasReachedMax: true,
+          currentPage: currentPage!,
+          lastPage: lastPage!,
+          perPage: perPage!,
+          total: total!,
         ),
       );
     });
