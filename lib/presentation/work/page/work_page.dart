@@ -13,12 +13,12 @@ import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/bloc/connectivity_bloc.dart';
 import 'package:mini_project_alfath/presentation/error/page/error_page.dart';
-import 'package:mini_project_alfath/presentation/vacancy/bloc/work/work_bloc.dart';
-import 'package:mini_project_alfath/presentation/vacancy/page/detail_work_page.dart';
-import 'package:mini_project_alfath/presentation/vacancy/widget/card_job_vacancy_widget.dart';
-import 'package:mini_project_alfath/presentation/vacancy/widget/card_type_work_widget.dart';
-import 'package:mini_project_alfath/presentation/vacancy/widget/shimmer/work_simmer.dart';
-import 'package:mini_project_alfath/presentation/vacancy/widget/search_job_vacancy_widget.dart';
+import 'package:mini_project_alfath/presentation/work/bloc/work/work_bloc.dart';
+import 'package:mini_project_alfath/presentation/work/page/detail_work_page.dart';
+import 'package:mini_project_alfath/presentation/work/widget/card_job_vacancy_widget.dart';
+import 'package:mini_project_alfath/presentation/work/widget/card_type_work_widget.dart';
+import 'package:mini_project_alfath/presentation/work/widget/shimmer/work_simmer.dart';
+import 'package:mini_project_alfath/presentation/work/widget/search_job_vacancy_widget.dart';
 
 class WorkPage extends StatefulWidget {
   const WorkPage({super.key});
