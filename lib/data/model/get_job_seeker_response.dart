@@ -56,7 +56,7 @@ class Pekerjaan {
     final String key;
     final String nama;
     final Jenis jenis;
-    final Lokasi lokasi;
+    final String lokasi;
     final int minimalGaji;
     final int maksimalGaji;
     final String tipe;
@@ -65,7 +65,7 @@ class Pekerjaan {
     final String minimalPendidikan;
     final String minimalPengalaman;
     final String minimalUmur;
-    final AtedAt createdAt;
+    final String createdAt;
     final AtedAt updatedAt;
     final bool isApply;
 
@@ -91,7 +91,7 @@ class Pekerjaan {
         key: json["key"],
         nama: json["nama"],
         jenis: jenisValues.map[json["jenis"]]!,
-        lokasi: lokasiValues.map[json["lokasi"]]!,
+        lokasi: json["lokasi"],
         minimalGaji: json["minimalGaji"],
         maksimalGaji: json["maksimalGaji"],
         tipe: json["tipe"],
@@ -100,7 +100,7 @@ class Pekerjaan {
         minimalPendidikan: json["minimalPendidikan"],
         minimalPengalaman: json["minimalPengalaman"],
         minimalUmur: json["minimalUmur"],
-        createdAt: atedAtValues.map[json["created_at"]]!,
+        createdAt: json["created_at"],
         updatedAt: atedAtValues.map[json["updated_at"]]!,
         isApply: json["isApply"],
     );

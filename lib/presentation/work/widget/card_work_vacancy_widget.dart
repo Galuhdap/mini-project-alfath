@@ -5,7 +5,7 @@ import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 
-class CardJobVacancyWidget extends StatelessWidget {
+class CardWorkVacancyWidget extends StatelessWidget {
   final String title;
   final String type;
   final String companyName;
@@ -14,7 +14,7 @@ class CardJobVacancyWidget extends StatelessWidget {
   final String status;
   final Function()? onTap;
 
-  const CardJobVacancyWidget({
+  const CardWorkVacancyWidget({
     super.key,
     required this.title,
     required this.type,

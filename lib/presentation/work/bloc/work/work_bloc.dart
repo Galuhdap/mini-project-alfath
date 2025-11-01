@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
 import 'package:mini_project_alfath/data/service/job_seeker_service.dart';

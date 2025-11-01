@@ -7,7 +7,7 @@ import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/presentation/error/page/error_page.dart';
-import 'package:mini_project_alfath/presentation/work/bloc/bloc/work_detail_bloc.dart';
+import 'package:mini_project_alfath/presentation/work/bloc/work_detail/work_detail_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/widget/shimmer/work_detail_shimmer.dart';
 
 class DetailWorkPage extends StatefulWidget {
