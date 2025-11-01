@@ -13,21 +13,21 @@ import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/bloc/connectivity_bloc.dart';
 import 'package:mini_project_alfath/presentation/error/page/error_page.dart';
-import 'package:mini_project_alfath/presentation/vacancy/bloc/bloc/work_bloc.dart';
-import 'package:mini_project_alfath/presentation/vacancy/page/detail_vacancy_page.dart';
+import 'package:mini_project_alfath/presentation/vacancy/bloc/work/work_bloc.dart';
+import 'package:mini_project_alfath/presentation/vacancy/page/detail_work_page.dart';
 import 'package:mini_project_alfath/presentation/vacancy/widget/card_job_vacancy_widget.dart';
 import 'package:mini_project_alfath/presentation/vacancy/widget/card_type_work_widget.dart';
-import 'package:mini_project_alfath/presentation/vacancy/widget/job_vacancy_simmer.dart';
+import 'package:mini_project_alfath/presentation/vacancy/widget/shimmer/work_simmer.dart';
 import 'package:mini_project_alfath/presentation/vacancy/widget/search_job_vacancy_widget.dart';
 
-class VacancyPage extends StatefulWidget {
-  const VacancyPage({super.key});
+class WorkPage extends StatefulWidget {
+  const WorkPage({super.key});
 
   @override
-  State<VacancyPage> createState() => _VacancyPageState();
+  State<WorkPage> createState() => _WorkPageState();
 }
 
-class _VacancyPageState extends State<VacancyPage> {
+class _WorkPageState extends State<WorkPage> {
   final ScrollController _scrollController = ScrollController();
   bool _isSearchVisible = true;
   double _lastOffset = 0.0;
@@ -35,11 +35,14 @@ class _VacancyPageState extends State<VacancyPage> {
   TextEditingController searchController = TextEditingController();
 
   String? _searchQuery;
-  String? _selectedJobType; // FullTime, PartTime, Internship
+  // String? _selectedTipeBottom; // FullTime, PartTime, Internship
+  String? _selectedTipeBottom;
   String? _selectedMinValue;
   String? _selectedMaxValue;
   int? _minSalary;
   int? _maxSalary;
+  List<int> selectedTipeList = []; // untuk menyimpan tipe numerik (['1','2'])
+  String? _selectedJobType;
 
   // dropdown items
   final List<String> items = [
@@ -68,15 +71,16 @@ class _VacancyPageState extends State<VacancyPage> {
           maksimalGaji: _maxSalary ?? 0,
           jenis: _selectedJobType ?? 'Nasional',
           search: _searchQuery ?? '',
-          tipe: '',
+          tipe: selectedTipeList,
         );
+
+        print(selectedTipeList.toString());
 
         return result.fold(
           (left) {
-        throw Exception(left);
+            throw Exception(left);
           },
           (right) {
-        
             final list = right.data;
             return list;
           },
@@ -178,45 +182,48 @@ class _VacancyPageState extends State<VacancyPage> {
                                                     CardTypeWorkWidget(
                                                       label: 'Semua',
                                                       isSelected:
-                                                          _selectedJobType ==
+                                                          _selectedTipeBottom ==
                                                           'Semua',
                                                       onTap: () {
-                                                        setModalState(
-                                                          () =>
-                                                              _selectedJobType =
-                                                                  'Semua',
-                                                        );
-                                                        print(_selectedJobType);
+                                                        setModalState(() {
+                                                          _selectedTipeBottom =
+                                                              'Semua';
+                                                          selectedTipeList = [
+                                                            
+                                                          ]; // semua tipe
+                                                        });
                                                       },
                                                     ),
                                                     AppSizes.s8.width,
                                                     CardTypeWorkWidget(
                                                       label: 'FullTime',
                                                       isSelected:
-                                                          _selectedJobType ==
+                                                          _selectedTipeBottom ==
                                                           'FullTime',
                                                       onTap: () {
-                                                        setModalState(
-                                                          () =>
-                                                              _selectedJobType =
-                                                                  'FullTime',
-                                                        );
-                                                        print(_selectedJobType);
+                                                        setModalState(() {
+                                                          _selectedTipeBottom =
+                                                              'FullTime';
+                                                          selectedTipeList = [
+                                                            1,
+                                                          ];
+                                                        });
                                                       },
                                                     ),
                                                     AppSizes.s8.width,
                                                     CardTypeWorkWidget(
                                                       label: 'PartTime',
                                                       isSelected:
-                                                          _selectedJobType ==
+                                                          _selectedTipeBottom ==
                                                           'PartTime',
                                                       onTap: () {
-                                                        setModalState(
-                                                          () =>
-                                                              _selectedJobType =
-                                                                  'PartTime',
-                                                        );
-                                                        print(_selectedJobType);
+                                                        setModalState(() {
+                                                          _selectedTipeBottom =
+                                                              'PartTime';
+                                                          selectedTipeList = [
+                                                            2,
+                                                          ];
+                                                        });
                                                       },
                                                     ),
                                                   ],
@@ -227,14 +234,14 @@ class _VacancyPageState extends State<VacancyPage> {
                                                   child: CardTypeWorkWidget(
                                                     label: 'Internship',
                                                     isSelected:
-                                                        _selectedJobType ==
+                                                        _selectedTipeBottom ==
                                                         'Internship',
                                                     onTap: () {
-                                                      setModalState(
-                                                        () => _selectedJobType =
-                                                            'Internship',
-                                                      );
-                                                      print(_selectedJobType);
+                                                      setModalState(() {
+                                                        _selectedTipeBottom =
+                                                            'Internship';
+                                                        selectedTipeList = [3];
+                                                      });
                                                     },
                                                   ),
                                                 ),
@@ -394,7 +401,9 @@ class _VacancyPageState extends State<VacancyPage> {
                                       ? 'Applied'
                                       : 'Open',
                                   onTap: () {
-                                    context.push(const DetailVacancyPage());
+                                    context.push(
+                                      DetailWorkPage(jobKey: job.pekerjaan.key),
+                                    );
                                   },
                                 );
                               },
@@ -408,7 +417,7 @@ class _VacancyPageState extends State<VacancyPage> {
                                       shrinkWrap: true,
                                       itemCount: 8,
                                       itemBuilder: (_, __) =>
-                                          const CardJobVacancyShimmerWidget(),
+                                          const WorkShimmerWidget(),
                                     ),
                                   ),
                               newPageProgressIndicatorBuilder: (_) => SizedBox(
@@ -417,16 +426,15 @@ class _VacancyPageState extends State<VacancyPage> {
                                 child: ListView.builder(
                                   itemCount: 5,
                                   itemBuilder: (context, index) =>
-                                      const CardJobVacancyShimmerWidget(),
+                                      const WorkShimmerWidget(),
                                 ),
                               ),
-                              noItemsFoundIndicatorBuilder: (_) =>  Center(
+                              noItemsFoundIndicatorBuilder: (_) => Center(
                                 child: ErrorPage(
                                   isNoConnection: false,
                                   message:
                                       'Lowongan sudah dihapus atau tidak tersedia',
                                   image: Assets.images.error404.path,
-                                 
                                 ),
                               ),
 

@@ -125,7 +125,7 @@ return loadMore(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( int page,  int? minimalGaji,  int? maksimalGaji,  String? search,  String? jenis,  String? tipe)?  fetchJobs,TResult Function( int? minimalGaji,  int? maksimalGaji,  String? jenis)?  loadMore,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( int page,  int? minimalGaji,  int? maksimalGaji,  String? search,  String? jenis,  List<int>? tipe)?  fetchJobs,TResult Function( int? minimalGaji,  int? maksimalGaji,  String? jenis)?  loadMore,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _FetchJobs() when fetchJobs != null:
@@ -148,7 +148,7 @@ return loadMore(_that.minimalGaji,_that.maksimalGaji,_that.jenis);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( int page,  int? minimalGaji,  int? maksimalGaji,  String? search,  String? jenis,  String? tipe)  fetchJobs,required TResult Function( int? minimalGaji,  int? maksimalGaji,  String? jenis)  loadMore,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( int page,  int? minimalGaji,  int? maksimalGaji,  String? search,  String? jenis,  List<int>? tipe)  fetchJobs,required TResult Function( int? minimalGaji,  int? maksimalGaji,  String? jenis)  loadMore,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _FetchJobs():
@@ -170,7 +170,7 @@ return loadMore(_that.minimalGaji,_that.maksimalGaji,_that.jenis);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( int page,  int? minimalGaji,  int? maksimalGaji,  String? search,  String? jenis,  String? tipe)?  fetchJobs,TResult? Function( int? minimalGaji,  int? maksimalGaji,  String? jenis)?  loadMore,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( int page,  int? minimalGaji,  int? maksimalGaji,  String? search,  String? jenis,  List<int>? tipe)?  fetchJobs,TResult? Function( int? minimalGaji,  int? maksimalGaji,  String? jenis)?  loadMore,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _FetchJobs() when fetchJobs != null:
@@ -219,7 +219,7 @@ String toString() {
 
 
 class _FetchJobs implements WorkEvent {
-  const _FetchJobs({required this.page, this.minimalGaji, this.maksimalGaji, this.search, this.jenis, this.tipe});
+  const _FetchJobs({required this.page, this.minimalGaji, this.maksimalGaji, this.search, this.jenis, final  List<int>? tipe}): _tipe = tipe;
   
 
  final  int page;
@@ -227,7 +227,15 @@ class _FetchJobs implements WorkEvent {
  final  int? maksimalGaji;
  final  String? search;
  final  String? jenis;
- final  String? tipe;
+ final  List<int>? _tipe;
+ List<int>? get tipe {
+  final value = _tipe;
+  if (value == null) return null;
+  if (_tipe is EqualUnmodifiableListView) return _tipe;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of WorkEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -239,12 +247,12 @@ _$FetchJobsCopyWith<_FetchJobs> get copyWith => __$FetchJobsCopyWithImpl<_FetchJ
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FetchJobs&&(identical(other.page, page) || other.page == page)&&(identical(other.minimalGaji, minimalGaji) || other.minimalGaji == minimalGaji)&&(identical(other.maksimalGaji, maksimalGaji) || other.maksimalGaji == maksimalGaji)&&(identical(other.search, search) || other.search == search)&&(identical(other.jenis, jenis) || other.jenis == jenis)&&(identical(other.tipe, tipe) || other.tipe == tipe));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FetchJobs&&(identical(other.page, page) || other.page == page)&&(identical(other.minimalGaji, minimalGaji) || other.minimalGaji == minimalGaji)&&(identical(other.maksimalGaji, maksimalGaji) || other.maksimalGaji == maksimalGaji)&&(identical(other.search, search) || other.search == search)&&(identical(other.jenis, jenis) || other.jenis == jenis)&&const DeepCollectionEquality().equals(other._tipe, _tipe));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,page,minimalGaji,maksimalGaji,search,jenis,tipe);
+int get hashCode => Object.hash(runtimeType,page,minimalGaji,maksimalGaji,search,jenis,const DeepCollectionEquality().hash(_tipe));
 
 @override
 String toString() {
@@ -259,7 +267,7 @@ abstract mixin class _$FetchJobsCopyWith<$Res> implements $WorkEventCopyWith<$Re
   factory _$FetchJobsCopyWith(_FetchJobs value, $Res Function(_FetchJobs) _then) = __$FetchJobsCopyWithImpl;
 @useResult
 $Res call({
- int page, int? minimalGaji, int? maksimalGaji, String? search, String? jenis, String? tipe
+ int page, int? minimalGaji, int? maksimalGaji, String? search, String? jenis, List<int>? tipe
 });
 
 
@@ -283,8 +291,8 @@ as int,minimalGaji: freezed == minimalGaji ? _self.minimalGaji : minimalGaji // 
 as int?,maksimalGaji: freezed == maksimalGaji ? _self.maksimalGaji : maksimalGaji // ignore: cast_nullable_to_non_nullable
 as int?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,jenis: freezed == jenis ? _self.jenis : jenis // ignore: cast_nullable_to_non_nullable
-as String?,tipe: freezed == tipe ? _self.tipe : tipe // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,tipe: freezed == tipe ? _self._tipe : tipe // ignore: cast_nullable_to_non_nullable
+as List<int>?,
   ));
 }
 

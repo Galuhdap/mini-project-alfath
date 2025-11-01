@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CardJobVacancyShimmerWidget extends StatelessWidget {
-  const CardJobVacancyShimmerWidget({super.key});
+class WorkShimmerWidget extends StatelessWidget {
+  const WorkShimmerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

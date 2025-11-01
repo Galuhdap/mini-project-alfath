@@ -36,9 +36,6 @@ class WorkBloc extends Bloc<WorkEvent, WorkState> {
       final perPage = meta.perPage;
       final total = meta.total;
 
-      // cek apakah sudah sampai halaman terakhir
-     // final bool hasReachedMax = currentPage >= lastPage;
-
       emit(
         WorkState.loaded(
           jobs: jobs,

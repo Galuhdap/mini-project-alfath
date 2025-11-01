@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_project_alfath/data/service/job_seeker_service.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/bloc/connectivity_bloc.dart';
-import 'package:mini_project_alfath/presentation/vacancy/bloc/bloc/work_bloc.dart';
-import 'package:mini_project_alfath/presentation/vacancy/page/detail_vacancy_page.dart';
-import 'package:mini_project_alfath/presentation/vacancy/page/vacancy_page.dart';
+import 'package:mini_project_alfath/presentation/vacancy/bloc/bloc/work_detail_bloc.dart';
+import 'package:mini_project_alfath/presentation/vacancy/bloc/work/work_bloc.dart';
+import 'package:mini_project_alfath/presentation/vacancy/page/detail_work_page.dart';
+import 'package:mini_project_alfath/presentation/vacancy/page/work_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -19,18 +20,14 @@ class MainPage extends StatelessWidget {
               ConnectivityBloc(Connectivity())
                 ..add(const ConnectivityEvent.checkConnection()),
         ),
-        BlocProvider(
-          create: (context) => WorkBloc(JobSeekerService()),
-        ),
+        BlocProvider(create: (context) => WorkBloc(JobSeekerService())),
+        BlocProvider(create: (context) => WorkDetailBloc(JobSeekerService())),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        home: VacancyPage(),
+        home: WorkPage(),
 
-        routes: {
-          '/vacancy': (context) => const VacancyPage(),
-          '/detail/vacancy': (context) => const DetailVacancyPage(),
-        },
+        routes: {'/work': (context) => const WorkPage()},
       ),
     );
   }

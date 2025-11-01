@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mini_project_alfath/config/flavor_config.dart';
+import 'package:mini_project_alfath/data/model/get_detail_job_seeker_response.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
 
 class JobSeekerRemoteDatasource {
@@ -11,34 +12,43 @@ class JobSeekerRemoteDatasource {
   final http.Client _client;
   final baseUrl = FlavorConfig.instance.baseUrl;
 
-  /// Ambil data pekerjaan aktif dari API jobseeker
+  final String token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9sb2dpbiIsImlhdCI6MTc2MTk4MTI0MCwiZXhwIjoxNzYyMDY3NjQwLCJuYmYiOjE3NjE5ODEyNDAsImp0aSI6ImdtMDYxT3dJZWVnOFpuMjgiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.E5A1pBjTn6rJ-L6hCyZtRKnsinT0cXHqUgOYi49VWu4';
+
   Future<Either<String, GetJobSeeker>> getActiveJobs({
     int page = 1,
     int? minimalGaji,
     int? maksimalGaji,
     String? search,
     String? jenis,
-    String? tipe,
+    List<int>? tipe,
   }) async {
     try {
-      // final uri = Uri.parse('$baseUrl/jobseeker/pekerjaan/getActivePekejaan?page=${page}&minimalGaji=${minimalGaji}&maksimalGaji=${maksimalGaji}&search=${search}&jenis=${jenis}');
-      final uri = Uri.parse('$baseUrl/jobseeker/pekerjaan/getActivePekejaan')
-          .replace(
-            queryParameters: {
-              'page': page.toString(),
-              if (minimalGaji != null) 'minimalGaji': minimalGaji.toString(),
-              if (maksimalGaji != null) 'maksimalGaji': maksimalGaji.toString(),
-              if (search != null) 'search': search,
-              if (jenis != null) 'jenis': jenis,
-              if (tipe != null) 'tipe': tipe,
-            },
-          );
+      // final String token =
+      //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9sb2dpbiIsImlhdCI6MTc2MTk4MTI0MCwiZXhwIjoxNzYyMDY3NjQwLCJuYmYiOjE3NjE5ODEyNDAsImp0aSI6ImdtMDYxT3dJZWVnOFpuMjgiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.E5A1pBjTn6rJ-L6hCyZtRKnsinT0cXHqUgOYi49VWu4';
+      final queryParameters = {
+        'page': page.toString(),
+        if (minimalGaji != null) 'minimalGaji': minimalGaji.toString(),
+        if (maksimalGaji != null) 'maksimalGaji': maksimalGaji.toString(),
+        if (search != null) 'search': search,
+        if (jenis != null) 'jenis': jenis,
+      };
+
+      // 🔹 tambahkan tipe[i]
+      if (tipe != null && tipe.isNotEmpty) {
+        for (int i = 0; i < tipe.length; i++) {
+          queryParameters['tipe[$i]'] = tipe[i].toString();
+        }
+      }
+
+      final uri = Uri.parse(
+        '$baseUrl/jobseeker/pekerjaan/getActivePekejaan',
+      ).replace(queryParameters: queryParameters);
 
       final response = await _client.get(
         uri,
         headers: {
-          'Authorization':
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9qb2JzZWVrZXJcL3Bla2VyamFhblwvZ2V0QWN0aXZlUGVrZWphYW5cL2MyNTA3MDkxLWViNjgtNGUwZC05MjQ2LWUxODgzMGJhODY2OCIsImlhdCI6MTc2MTUzNDgxMywiZXhwIjoxNzYxOTAyNzA3LCJuYmYiOjE3NjE4MTYzMDcsImp0aSI6IkpWNGlhRTZaWFE2RmlsNDIiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.dhrqt7qPe2BzYN0hk908CdALByqluiI3a0ubFKJjD-A', // <-- ini bagian penting
+          'Authorization': 'Bearer $token', // token kamu
           'Content-Type': 'application/json',
         },
       );
@@ -48,25 +58,21 @@ class JobSeekerRemoteDatasource {
       // print('📦 Response Remote: ${response.body}');
       // print('⚙️ minimal gaji Remote: ${minimalGaji}');
       // print('error body code: ${response.body.isNotEmpty}');
+      // print('tipe parameter: ${tipe}');
 
       if (response.statusCode == 200) {
-        print('status code 200 ✅');
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
         final parsed = GetJobSeeker.fromJson(responseBody);
 
-        // ✅ Tangani data kosong dengan tetap mengembalikan success
-        if (parsed.data.isEmpty) {
-          print('ℹ️ Tidak ada data, tapi respons sukses');
-        }
+        // if (parsed.data.isEmpty) {
+        //   //  print('ℹ️ Tidak ada data, tapi respons sukses');
+        // }
 
         return Right(parsed);
       } else {
-        print('status code bukan 200 ❌');
-        // 🔹 Tangani error dari server
         final Map<String, dynamic>? errorBody = response.body.isNotEmpty
             ? jsonDecode(response.body) as Map<String, dynamic>?
             : null;
-
         final errorMessage = _mapErrorMessage(response.statusCode, errorBody);
         return Left(errorMessage);
       }
@@ -74,6 +80,33 @@ class JobSeekerRemoteDatasource {
       return Left(
         'Network error: Failed to fetch active jobs - ${e.toString()}',
       );
+    }
+  }
+
+  Future<Either<String, GetDetailJobSeeker>> getJobDetail(String id) async {
+    try {
+      final url = '$baseUrl/jobseeker/pekerjaan/getActivePekejaan/$id';
+      final response = await _client.get(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('🔗 Request URL Remote: $url');
+      print('response status code: ${response.statusCode}');
+      print('📦 Response Remote: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> body = json.decode(response.body);
+        final detail = GetDetailJobSeeker.fromJson(body);
+        return Right(detail);
+      } else {
+        return Left('Failed to load job detail: ${response.statusCode}');
+      }
+    } catch (e) {
+      return Left('Network error: ${e.toString()}');
     }
   }
 
