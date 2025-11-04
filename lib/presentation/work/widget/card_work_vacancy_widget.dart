@@ -56,6 +56,7 @@ class CardWorkVacancyWidget extends StatelessWidget {
                     fontSize: AppSizes.s16,
                     fontWeight: FontWeight.w600,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   type,

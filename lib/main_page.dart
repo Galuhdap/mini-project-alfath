@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_project_alfath/data/service/job_seeker_service.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/connectivity/connectivity_bloc.dart';
+import 'package:mini_project_alfath/presentation/work/bloc/bloc/working_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/bloc/work_detail/work_detail_bloc.dart';
-import 'package:mini_project_alfath/presentation/work/bloc/work/work_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/page/work_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -19,7 +19,7 @@ class MainPage extends StatelessWidget {
               ConnectivityBloc(Connectivity())
                 ..add(const ConnectivityEvent.checkConnection()),
         ),
-        BlocProvider(create: (context) => WorkBloc(JobSeekerService())),
+        BlocProvider(create: (context) => WorkingBloc(JobSeekerService())),
         BlocProvider(create: (context) => WorkDetailBloc(JobSeekerService())),
       ],
       child: MaterialApp(

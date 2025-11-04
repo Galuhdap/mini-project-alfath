@@ -1,9 +1,9 @@
-part of 'work_bloc.dart';
+part of 'working_bloc.dart';
 
 @freezed
-class WorkEvent with _$WorkEvent {
-  const factory WorkEvent.started() = _Started;
-  const factory WorkEvent.fetchJobs({
+class WorkingEvent with _$WorkingEvent {
+  const factory WorkingEvent.started() = _Started;
+  const factory WorkingEvent.fetchJobs({
     required int page,
     int? minimalGaji,
     int? maksimalGaji,
@@ -12,7 +12,7 @@ class WorkEvent with _$WorkEvent {
     List<int>? tipe,
   }) = _FetchJobs;
 
-  const factory WorkEvent.loadMore({
+  const factory WorkingEvent.loadMore({
     int? minimalGaji,
     int? maksimalGaji,
     String? jenis,

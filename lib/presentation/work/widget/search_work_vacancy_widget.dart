@@ -27,6 +27,7 @@ class SearchJobVacancyWidget extends StatelessWidget {
           child: Container(
             height: 44,
             child: TextField(
+              
               onChanged: onChanged,
               controller: controller,
               decoration: InputDecoration(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -6,7 +8,7 @@ import 'package:mini_project_alfath/core/component/dialog/show_bottom_dialog.dar
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
-import 'package:mini_project_alfath/presentation/work/bloc/work/work_bloc.dart';
+import 'package:mini_project_alfath/presentation/work/bloc/bloc/working_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/widget/list/work_vacancy_list.dart';
 import 'package:mini_project_alfath/presentation/work/widget/search_work_vacancy_widget.dart';
 import 'package:mini_project_alfath/presentation/work/widget/show_modal_bottom_widget.dart';
@@ -33,6 +35,7 @@ class _WorkPageState extends State<WorkPage> {
   int? _maxSalary;
   List<int> selectedTipeList = [];
   String? _selectedJobType;
+  Timer? _debounce;
 
   final List<String> items = [
     'Rp. 0 Jt',
@@ -52,7 +55,7 @@ class _WorkPageState extends State<WorkPage> {
       getNextPageKey: (state) =>
           state.lastPageIsEmpty ? null : state.nextIntPageKey,
       fetchPage: (pageKey) async {
-        final bloc = context.read<WorkBloc>();
+        final bloc = context.read<WorkingBloc>();
         final result = await bloc.service.getActiveJobs(
           page: pageKey,
           minimalGaji: _minSalary ?? 0,
@@ -121,10 +124,17 @@ class _WorkPageState extends State<WorkPage> {
                   ? SearchJobVacancyWidget(
                       controller: searchController,
                       onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value;
-                        });
-                        _pagingController.refresh();
+                        if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+                        _debounce = Timer(
+                          const Duration(milliseconds: 600),
+                          () {
+                            setState(() {
+                              _searchQuery = value;
+                            });
+                            _pagingController.refresh();
+                          },
+                        );
                       },
                       onTap: () {
                         showModalBottom(
@@ -134,8 +144,7 @@ class _WorkPageState extends State<WorkPage> {
                             selectedMinValue: _selectedMinValue,
                             selectedMaxValue: _selectedMaxValue,
                             selectedTipeList: selectedTipeList,
-                            salaryItems:
-                                items,
+                            salaryItems: items,
                             onFilterApplied:
                                 ({
                                   required tipeBottom,

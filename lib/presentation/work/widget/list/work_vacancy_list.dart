@@ -66,7 +66,7 @@ class WorkVacancyListView extends StatelessWidget {
               noItemsFoundIndicatorBuilder: (_) => Center(
                 child: ErrorPage(
                   isNoConnection: false,
-                  message: 'Lowongan sudah dihapus atau tidak tersedia',
+                  message: 'Lowongan yang dicari tidak ada',
                   image: Assets.images.error404.path,
                 ),
               ),

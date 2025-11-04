@@ -94,6 +94,9 @@ class _DetailWorkPageState extends State<DetailWorkPage> {
                               fontSize: AppSizes.s16,
                               fontWeight: FontWeight.w500,
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
                           ),
                           AppSizes.s2.height,
                           Text(
