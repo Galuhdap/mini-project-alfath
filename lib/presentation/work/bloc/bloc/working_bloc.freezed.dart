@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'work_bloc.dart';
+part of 'working_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'work_bloc.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$WorkEvent {
+mixin _$WorkingEvent {
 
 
 
@@ -20,7 +20,7 @@ mixin _$WorkEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkEvent);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkingEvent);
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'WorkEvent()';
+  return 'WorkingEvent()';
 }
 
 
 }
 
 /// @nodoc
-class $WorkEventCopyWith<$Res>  {
-$WorkEventCopyWith(WorkEvent _, $Res Function(WorkEvent) __);
+class $WorkingEventCopyWith<$Res>  {
+$WorkingEventCopyWith(WorkingEvent _, $Res Function(WorkingEvent) __);
 }
 
 
-/// Adds pattern-matching-related methods to [WorkEvent].
-extension WorkEventPatterns on WorkEvent {
+/// Adds pattern-matching-related methods to [WorkingEvent].
+extension WorkingEventPatterns on WorkingEvent {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -186,7 +186,7 @@ return loadMore(_that.minimalGaji,_that.maksimalGaji,_that.jenis);case _:
 /// @nodoc
 
 
-class _Started implements WorkEvent {
+class _Started implements WorkingEvent {
   const _Started();
   
 
@@ -206,7 +206,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'WorkEvent.started()';
+  return 'WorkingEvent.started()';
 }
 
 
@@ -218,7 +218,7 @@ String toString() {
 /// @nodoc
 
 
-class _FetchJobs implements WorkEvent {
+class _FetchJobs implements WorkingEvent {
   const _FetchJobs({required this.page, this.minimalGaji, this.maksimalGaji, this.search, this.jenis, final  List<int>? tipe}): _tipe = tipe;
   
 
@@ -237,7 +237,7 @@ class _FetchJobs implements WorkEvent {
 }
 
 
-/// Create a copy of WorkEvent
+/// Create a copy of WorkingEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -256,14 +256,14 @@ int get hashCode => Object.hash(runtimeType,page,minimalGaji,maksimalGaji,search
 
 @override
 String toString() {
-  return 'WorkEvent.fetchJobs(page: $page, minimalGaji: $minimalGaji, maksimalGaji: $maksimalGaji, search: $search, jenis: $jenis, tipe: $tipe)';
+  return 'WorkingEvent.fetchJobs(page: $page, minimalGaji: $minimalGaji, maksimalGaji: $maksimalGaji, search: $search, jenis: $jenis, tipe: $tipe)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$FetchJobsCopyWith<$Res> implements $WorkEventCopyWith<$Res> {
+abstract mixin class _$FetchJobsCopyWith<$Res> implements $WorkingEventCopyWith<$Res> {
   factory _$FetchJobsCopyWith(_FetchJobs value, $Res Function(_FetchJobs) _then) = __$FetchJobsCopyWithImpl;
 @useResult
 $Res call({
@@ -282,7 +282,7 @@ class __$FetchJobsCopyWithImpl<$Res>
   final _FetchJobs _self;
   final $Res Function(_FetchJobs) _then;
 
-/// Create a copy of WorkEvent
+/// Create a copy of WorkingEvent
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? page = null,Object? minimalGaji = freezed,Object? maksimalGaji = freezed,Object? search = freezed,Object? jenis = freezed,Object? tipe = freezed,}) {
   return _then(_FetchJobs(
@@ -302,7 +302,7 @@ as List<int>?,
 /// @nodoc
 
 
-class _LoadMore implements WorkEvent {
+class _LoadMore implements WorkingEvent {
   const _LoadMore({this.minimalGaji, this.maksimalGaji, this.jenis});
   
 
@@ -310,7 +310,7 @@ class _LoadMore implements WorkEvent {
  final  int? maksimalGaji;
  final  String? jenis;
 
-/// Create a copy of WorkEvent
+/// Create a copy of WorkingEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -329,14 +329,14 @@ int get hashCode => Object.hash(runtimeType,minimalGaji,maksimalGaji,jenis);
 
 @override
 String toString() {
-  return 'WorkEvent.loadMore(minimalGaji: $minimalGaji, maksimalGaji: $maksimalGaji, jenis: $jenis)';
+  return 'WorkingEvent.loadMore(minimalGaji: $minimalGaji, maksimalGaji: $maksimalGaji, jenis: $jenis)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$LoadMoreCopyWith<$Res> implements $WorkEventCopyWith<$Res> {
+abstract mixin class _$LoadMoreCopyWith<$Res> implements $WorkingEventCopyWith<$Res> {
   factory _$LoadMoreCopyWith(_LoadMore value, $Res Function(_LoadMore) _then) = __$LoadMoreCopyWithImpl;
 @useResult
 $Res call({
@@ -355,7 +355,7 @@ class __$LoadMoreCopyWithImpl<$Res>
   final _LoadMore _self;
   final $Res Function(_LoadMore) _then;
 
-/// Create a copy of WorkEvent
+/// Create a copy of WorkingEvent
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? minimalGaji = freezed,Object? maksimalGaji = freezed,Object? jenis = freezed,}) {
   return _then(_LoadMore(
@@ -370,7 +370,7 @@ as String?,
 }
 
 /// @nodoc
-mixin _$WorkState {
+mixin _$WorkingState {
 
 
 
@@ -378,7 +378,7 @@ mixin _$WorkState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkingState);
 }
 
 
@@ -387,20 +387,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'WorkState()';
+  return 'WorkingState()';
 }
 
 
 }
 
 /// @nodoc
-class $WorkStateCopyWith<$Res>  {
-$WorkStateCopyWith(WorkState _, $Res Function(WorkState) __);
+class $WorkingStateCopyWith<$Res>  {
+$WorkingStateCopyWith(WorkingState _, $Res Function(WorkingState) __);
 }
 
 
-/// Adds pattern-matching-related methods to [WorkState].
-extension WorkStatePatterns on WorkState {
+/// Adds pattern-matching-related methods to [WorkingState].
+extension WorkingStatePatterns on WorkingState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -550,7 +550,7 @@ return error(_that.message);case _:
 /// @nodoc
 
 
-class _Initial implements WorkState {
+class _Initial implements WorkingState {
   const _Initial();
   
 
@@ -570,7 +570,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'WorkState.initial()';
+  return 'WorkingState.initial()';
 }
 
 
@@ -582,7 +582,7 @@ String toString() {
 /// @nodoc
 
 
-class _Loading implements WorkState {
+class _Loading implements WorkingState {
   const _Loading();
   
 
@@ -602,7 +602,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'WorkState.loading()';
+  return 'WorkingState.loading()';
 }
 
 
@@ -614,7 +614,7 @@ String toString() {
 /// @nodoc
 
 
-class _Loaded implements WorkState {
+class _Loaded implements WorkingState {
   const _Loaded({required final  List<Datum> jobs, required this.hasReachedMax, this.currentPage = 1, this.lastPage = 1, this.perPage = 0, this.total = 0}): _jobs = jobs;
   
 
@@ -631,7 +631,7 @@ class _Loaded implements WorkState {
 @JsonKey() final  int perPage;
 @JsonKey() final  int total;
 
-/// Create a copy of WorkState
+/// Create a copy of WorkingState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -650,14 +650,14 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'WorkState.loaded(jobs: $jobs, hasReachedMax: $hasReachedMax, currentPage: $currentPage, lastPage: $lastPage, perPage: $perPage, total: $total)';
+  return 'WorkingState.loaded(jobs: $jobs, hasReachedMax: $hasReachedMax, currentPage: $currentPage, lastPage: $lastPage, perPage: $perPage, total: $total)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$LoadedCopyWith<$Res> implements $WorkStateCopyWith<$Res> {
+abstract mixin class _$LoadedCopyWith<$Res> implements $WorkingStateCopyWith<$Res> {
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
@@ -676,7 +676,7 @@ class __$LoadedCopyWithImpl<$Res>
   final _Loaded _self;
   final $Res Function(_Loaded) _then;
 
-/// Create a copy of WorkState
+/// Create a copy of WorkingState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? jobs = null,Object? hasReachedMax = null,Object? currentPage = null,Object? lastPage = null,Object? perPage = null,Object? total = null,}) {
   return _then(_Loaded(
@@ -696,13 +696,13 @@ as int,
 /// @nodoc
 
 
-class _Error implements WorkState {
+class _Error implements WorkingState {
   const _Error(this.message);
   
 
  final  String message;
 
-/// Create a copy of WorkState
+/// Create a copy of WorkingState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -721,14 +721,14 @@ int get hashCode => Object.hash(runtimeType,message);
 
 @override
 String toString() {
-  return 'WorkState.error(message: $message)';
+  return 'WorkingState.error(message: $message)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ErrorCopyWith<$Res> implements $WorkStateCopyWith<$Res> {
+abstract mixin class _$ErrorCopyWith<$Res> implements $WorkingStateCopyWith<$Res> {
   factory _$ErrorCopyWith(_Error value, $Res Function(_Error) _then) = __$ErrorCopyWithImpl;
 @useResult
 $Res call({
@@ -747,7 +747,7 @@ class __$ErrorCopyWithImpl<$Res>
   final _Error _self;
   final $Res Function(_Error) _then;
 
-/// Create a copy of WorkState
+/// Create a copy of WorkingState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(_Error(

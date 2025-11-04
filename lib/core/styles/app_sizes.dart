@@ -88,6 +88,7 @@ class AppSizes {
   static double s550 = 550.0;
 
 
+
   /*Responsive Size*/
 
   static setResponsiveWidth(BuildContext context){

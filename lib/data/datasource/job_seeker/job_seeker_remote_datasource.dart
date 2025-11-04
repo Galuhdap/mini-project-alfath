@@ -13,8 +13,7 @@ class JobSeekerRemoteDatasource {
   final baseUrl = FlavorConfig.instance.baseUrl;
 
   final String token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9sb2dpbiIsImlhdCI6MTc2MTk4MTI0MCwiZXhwIjoxNzYyMDY3NjQwLCJuYmYiOjE3NjE5ODEyNDAsImp0aSI6ImdtMDYxT3dJZWVnOFpuMjgiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.E5A1pBjTn6rJ-L6hCyZtRKnsinT0cXHqUgOYi49VWu4';
-
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9qb2JzZWVrZXJcL3Bla2VyamFhblwvZ2V0QWN0aXZlUGVrZWphYW4iLCJpYXQiOjE3NjE1MzQ4MTMsImV4cCI6MTc2MjI2NjMxMiwibmJmIjoxNzYyMTc5OTEyLCJqdGkiOiJiME1VUXp6YjBWdWRqdndOIiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.vGniwCv126gYhzG3Sd26XI7NN9jlDzyMpiOySppXCP8';
   Future<Either<String, GetJobSeeker>> getActiveJobs({
     int page = 1,
     int? minimalGaji,
