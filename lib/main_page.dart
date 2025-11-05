@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_project_alfath/data/service/job_seeker_service.dart';
+import 'package:mini_project_alfath/presentation/auth/page/login_page.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/connectivity/connectivity_bloc.dart';
 import 'package:mini_project_alfath/presentation/onBoarding/page/on_boarding_first_page.dart';
 import 'package:mini_project_alfath/presentation/work/bloc/bloc/working_bloc.dart';
@@ -25,9 +26,12 @@ class MainPage extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        home: OnBoardingFirstPage(),
+        home: LoginPage(),
 
-        routes: {'/work': (context) => const WorkPage()},
+        routes: {
+          '/work': (context) => const WorkPage(),
+          '/onBoarding': (context) => const OnBoardingFirstPage(),
+        },
       ),
     );
   }
