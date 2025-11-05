@@ -21,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
     //_setupTimeout();
   }
 
-  void _setupTimeout() {
+  void setupTimeout() {
     // Fallback timeout to prevent infinite loading
     Future.delayed(const Duration(seconds: 10), () {
       if (mounted && !_hasNavigated) {
