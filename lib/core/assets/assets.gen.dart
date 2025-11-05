@@ -20,11 +20,24 @@ class $AssetsIconsGen {
   /// File path: assets/icons/filter.svg
   SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
 
+  /// File path: assets/icons/icon-kerjar-karirmu.svg
+  SvgGenImage get iconKerjarKarirmu =>
+      const SvgGenImage('assets/icons/icon-kerjar-karirmu.svg');
+
+  /// File path: assets/icons/kejar-karirmu.svg
+  SvgGenImage get kejarKarirmu =>
+      const SvgGenImage('assets/icons/kejar-karirmu.svg');
+
   /// File path: assets/icons/reload.svg
   SvgGenImage get reload => const SvgGenImage('assets/icons/reload.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [filter, reload];
+  List<SvgGenImage> get values => [
+    filter,
+    iconKerjarKarirmu,
+    kejarKarirmu,
+    reload,
+  ];
 }
 
 class $AssetsImagesGen {
@@ -46,12 +59,32 @@ class $AssetsImagesGen {
   AssetGenImage get noConnection =>
       const AssetGenImage('assets/images/no-connection.png');
 
+  /// File path: assets/images/onBoarding-1.png
+  AssetGenImage get onBoarding1 =>
+      const AssetGenImage('assets/images/onBoarding-1.png');
+
+  /// File path: assets/images/onBoarding-2.png
+  AssetGenImage get onBoarding2 =>
+      const AssetGenImage('assets/images/onBoarding-2.png');
+
+  /// File path: assets/images/onBoarding-3.png
+  AssetGenImage get onBoarding3 =>
+      const AssetGenImage('assets/images/onBoarding-3.png');
+
+  /// File path: assets/images/onBoarding-4.png
+  AssetGenImage get onBoarding4 =>
+      const AssetGenImage('assets/images/onBoarding-4.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     companyLogo,
     error404,
     error504,
     noConnection,
+    onBoarding1,
+    onBoarding2,
+    onBoarding3,
+    onBoarding4,
   ];
 }
 

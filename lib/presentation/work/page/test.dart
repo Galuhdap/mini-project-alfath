@@ -14,7 +14,6 @@ import 'package:mini_project_alfath/presentation/error/page/error_page.dart';
 import 'package:mini_project_alfath/presentation/work/bloc/bloc/working_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/page/detail_work_page.dart';
 import 'package:mini_project_alfath/presentation/work/widget/card_work_vacancy_widget.dart';
-import 'package:mini_project_alfath/presentation/work/widget/list/work_vacancy_list.dart';
 import 'package:mini_project_alfath/presentation/work/widget/search_work_vacancy_widget.dart';
 import 'package:mini_project_alfath/presentation/work/widget/shimmer/work_simmer.dart';
 import 'package:mini_project_alfath/presentation/work/widget/show_modal_bottom_widget.dart';
