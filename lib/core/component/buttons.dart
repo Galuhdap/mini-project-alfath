@@ -20,6 +20,7 @@ class Button extends StatelessWidget {
     this.disabled = false,
     this.fontSize = 16.0,
     this.borderColor,
+    this.fontWeight = FontWeight.w500,
   });
 
   const Button.outlined({
@@ -37,6 +38,7 @@ class Button extends StatelessWidget {
     this.disabled = false,
     this.fontSize = 16.0,
     this.borderColor,
+    this.fontWeight = FontWeight.w500,
   });
 
   final Function() onPressed;
@@ -52,6 +54,7 @@ class Button extends StatelessWidget {
   final bool disabled;
   final double fontSize;
   final Color? borderColor;
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -104,10 +107,10 @@ class Button extends StatelessWidget {
                   if (icon != null) const SizedBox(width: 10.0),
                   Text(
                     label,
-                    style: TextStyle(
+                    style: ThemeConfig.labelMedium.copyWith(
                       color: textColor,
                       fontSize: fontSize,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: fontWeight,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
