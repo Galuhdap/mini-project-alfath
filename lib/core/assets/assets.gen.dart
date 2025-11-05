@@ -20,9 +20,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/filter.svg
   SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
 
-  /// File path: assets/icons/google.svg
-  SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
-
   /// File path: assets/icons/icon-kerjar-karirmu.svg
   SvgGenImage get iconKerjarKarirmu =>
       const SvgGenImage('assets/icons/icon-kerjar-karirmu.svg');
@@ -31,29 +28,20 @@ class $AssetsIconsGen {
   SvgGenImage get kejarKarirmu =>
       const SvgGenImage('assets/icons/kejar-karirmu.svg');
 
-  /// File path: assets/icons/mail.svg
-  SvgGenImage get mail => const SvgGenImage('assets/icons/mail.svg');
-
   /// File path: assets/icons/reload.svg
   SvgGenImage get reload => const SvgGenImage('assets/icons/reload.svg');
 
   /// List of all assets
   List<SvgGenImage> get values => [
     filter,
-    google,
     iconKerjarKarirmu,
     kejarKarirmu,
-    mail,
     reload,
   ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
-
-  /// File path: assets/images/bg-login.png
-  AssetGenImage get bgLogin =>
-      const AssetGenImage('assets/images/bg-login.png');
 
   /// File path: assets/images/company-logo.png
   AssetGenImage get companyLogo =>
@@ -89,7 +77,6 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-    bgLogin,
     companyLogo,
     error404,
     error504,
