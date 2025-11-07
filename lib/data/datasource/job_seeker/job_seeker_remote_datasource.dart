@@ -2,18 +2,23 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mini_project_alfath/config/flavor_config.dart';
+import 'package:mini_project_alfath/data/datasource/auth/auth_local_datasource.dart';
 import 'package:mini_project_alfath/data/model/get_detail_job_seeker_response.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
 
 class JobSeekerRemoteDatasource {
-  JobSeekerRemoteDatasource({http.Client? client})
-    : _client = client ?? http.Client();
+  JobSeekerRemoteDatasource({
+    http.Client? client,
+    required AuthLocalHiveDatasource localDatasource,
+  }) : _client = client ?? http.Client(),
+       _localDatasource = localDatasource;
 
   final http.Client _client;
+  final AuthLocalHiveDatasource _localDatasource;
   final baseUrl = FlavorConfig.instance.baseUrl;
 
-  final String token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9qb2JzZWVrZXJcL3Bla2VyamFhblwvZ2V0QWN0aXZlUGVrZWphYW4iLCJpYXQiOjE3NjE1MzQ4MTMsImV4cCI6MTc2MjI2NjMxMiwibmJmIjoxNzYyMTc5OTEyLCJqdGkiOiJiME1VUXp6YjBWdWRqdndOIiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.vGniwCv126gYhzG3Sd26XI7NN9jlDzyMpiOySppXCP8';
+  // final String token =
+  // 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9qb2JzZWVrZXJcL3Bla2VyamFhblwvZ2V0QWN0aXZlUGVrZWphYW4iLCJpYXQiOjE3NjE1MzQ4MTMsImV4cCI6MTc2MjI2NjMxMiwibmJmIjoxNzYyMTc5OTEyLCJqdGkiOiJiME1VUXp6YjBWdWRqdndOIiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.vGniwCv126gYhzG3Sd26XI7NN9jlDzyMpiOySppXCP8';
   Future<Either<String, GetJobSeeker>> getActiveJobs({
     int page = 1,
     int? minimalGaji,
@@ -23,8 +28,11 @@ class JobSeekerRemoteDatasource {
     List<int>? tipe,
   }) async {
     try {
-      // final String token =
-      //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wva2tsb2tlci5wYXJ0bmVyY29kaW5nLmNvbVwvYXBpXC9sb2dpbiIsImlhdCI6MTc2MTk4MTI0MCwiZXhwIjoxNzYyMDY3NjQwLCJuYmYiOjE3NjE5ODEyNDAsImp0aSI6ImdtMDYxT3dJZWVnOFpuMjgiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.E5A1pBjTn6rJ-L6hCyZtRKnsinT0cXHqUgOYi49VWu4';
+      final token = await _localDatasource.getTokenDirect();
+      if (token == null || token.isEmpty) {
+        return const Left('Token tidak ditemukan. Silakan login ulang.');
+      }
+
       final queryParameters = {
         'page': page.toString(),
         if (minimalGaji != null) 'minimalGaji': minimalGaji.toString(),
@@ -84,6 +92,12 @@ class JobSeekerRemoteDatasource {
 
   Future<Either<String, GetDetailJobSeeker>> getJobDetail(String id) async {
     try {
+      final token = await _localDatasource.getTokenDirect();
+      print(token);
+      if (token == null || token.isEmpty) {
+        return const Left('Token tidak ditemukan. Silakan login ulang.');
+      }
+
       final url = '$baseUrl/jobseeker/pekerjaan/getActivePekejaan/$id';
       final response = await _client.get(
         Uri.parse(url),
@@ -100,8 +114,10 @@ class JobSeekerRemoteDatasource {
       if (response.statusCode == 200) {
         final Map<String, dynamic> body = json.decode(response.body);
         final detail = GetDetailJobSeeker.fromJson(body);
+        print('adasda: $detail');
         return Right(detail);
       } else {
+        print('Error Bosss');
         return Left('Failed to load job detail: ${response.statusCode}');
       }
     } catch (e) {

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_project_alfath/config/theme_config.dart';
 import 'package:mini_project_alfath/core/component/buttons.dart';
 import 'package:mini_project_alfath/core/component/input_component.dart';
 import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/bloc/login_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/widget/email_login_widget.dart';
 import 'package:mini_project_alfath/presentation/auth/widget/registered_widget.dart';
 
@@ -42,7 +44,7 @@ class _AuthWithEmailPageState extends State<AuthWithEmailPage> {
     if (email.isEmpty) return;
 
     setState(() {
-      if (email.contains("test")) {
+      if (email.contains("aansatrianto@gmail.com")) {
         isEmailRegistered = true;
       } else {
         isEmailRegistered = false;
@@ -124,10 +126,41 @@ class _AuthWithEmailPageState extends State<AuthWithEmailPage> {
               hintText: 'Masukkan Email',
             ),
             if (isEmailRegistered == true) ...[
-              EmailLoginWidget(
-                passwordController: passwordController,
-                onLoginPressed: () {},
-                isLoginValid: isLoginValid,
+              BlocListener<LoginBloc, LoginState>(
+                listener: (context, state) {
+                  state.maybeWhen(
+                    success: (user) {
+                      Navigator.pushReplacementNamed(context, '/work');
+                    },
+                    failed: (error) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(error)));
+                    },
+                    orElse: () {},
+                  );
+                },
+                child: BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, state) {
+                    return EmailLoginWidget(
+                      passwordController: passwordController,
+                      onLoginPressed: state.maybeWhen(
+                        loading: () => () {
+                          Center(child: CircularProgressIndicator());
+                        },
+                        orElse: () => () async {
+                          context.read<LoginBloc>().add(
+                            LoginEvent.loginRequested(
+                              email: emailController.text.trim(),
+                              password: passwordController.text,
+                            ),
+                          );
+                        },
+                      ),
+                      isLoginValid: isLoginValid,
+                    );
+                  },
+                ),
               ),
             ] else if (isEmailRegistered == false) ...[
               RegisteredWidget(
@@ -135,9 +168,7 @@ class _AuthWithEmailPageState extends State<AuthWithEmailPage> {
                 phoneController: phoneController,
                 passwordController: passwordController,
                 confirmPasswordController: confirmPasswordController,
-                onRegisterPressed: () {
-                  print("✅ Daftar berhasil");
-                },
+                onRegisterPressed: () {},
               ),
             ]
             // 🔹 Default state (belum dicek)

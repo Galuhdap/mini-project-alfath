@@ -13,13 +13,14 @@ class OnBoardingWidget extends StatelessWidget {
   final String image;
   final Function() onPressedNext;
   final Function()? onPressedBack;
+  final bool isLastPage;
 
   const OnBoardingWidget({
     super.key,
     required this.title,
     required this.label,
     required this.image,
-
+    this.isLastPage = false,
     required this.onPressedNext,
     this.onPressedBack,
   });

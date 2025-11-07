@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:mini_project_alfath/data/datasource/auth/auth_local_datasource.dart';
 import 'package:mini_project_alfath/data/datasource/job_seeker/job_seeker_remote_datasource.dart';
 import 'package:mini_project_alfath/data/model/get_detail_job_seeker_response.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
@@ -6,8 +7,14 @@ import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
 class JobSeekerService {
   final JobSeekerRemoteDatasource _remoteDatasource;
 
-  JobSeekerService({JobSeekerRemoteDatasource? remoteDatasource})
-    : _remoteDatasource = remoteDatasource ?? JobSeekerRemoteDatasource();
+  JobSeekerService({
+    JobSeekerRemoteDatasource? remoteDatasource,
+    AuthLocalHiveDatasource? localDatasource,
+  }) : _remoteDatasource =
+           remoteDatasource ??
+           JobSeekerRemoteDatasource(
+             localDatasource: localDatasource ?? AuthLocalHiveDatasource(),
+           );
 
   Future<Either<String, GetJobSeeker>> getActiveJobs({
     int page = 1,
@@ -36,7 +43,7 @@ class JobSeekerService {
   Future<Either<String, GetDetailJobSeeker>> getJobDetail(String id) async {
     try {
       final result = await _remoteDatasource.getJobDetail(id);
-
+      print('ini data $result');
       return result;
     } catch (e) {
       return Left('Unexpected error: ${e.toString()}');
