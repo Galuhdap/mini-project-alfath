@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_project_alfath/config/theme_config.dart';
 import 'package:mini_project_alfath/core/component/buttons.dart';
+import 'package:mini_project_alfath/core/component/dialog/show_bottom_dialog.dart';
 import 'package:mini_project_alfath/core/component/input_component.dart';
+import 'package:mini_project_alfath/core/extensions/build_context_ext.dart';
 import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
@@ -10,6 +12,7 @@ import 'package:mini_project_alfath/data/model/request/register_request.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/bloc/register_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/checkEmail/check_email_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
+import 'package:mini_project_alfath/presentation/auth/page/otp_auth_page.dart';
 import 'package:mini_project_alfath/presentation/auth/widget/email_login_widget.dart';
 import 'package:mini_project_alfath/presentation/auth/widget/registered_widget.dart';
 
@@ -205,7 +208,45 @@ class _AuthWithEmailPageState extends State<AuthWithEmailPage> {
                     listener: (context, state) {
                       state.maybeWhen(
                         success: (user) {
-                           Navigator.pushReplacementNamed(context, '/work');
+                          showModalBottom(
+                            context,
+                            SafeArea(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: AppSizes.s24,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppSizes.s24.height,
+                                    Text(
+                                      'Kirim kode OTP',
+                                      style: ThemeConfig.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    AppSizes.s8.height,
+                                    Text(
+                                      'Registrasi akun berhasil! Silakan pilih metode pengiriman kode OTP',
+                                      style: ThemeConfig.labelSmall.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: AppSizes.s12,
+                                        color: AppColors.colorGeneralGrey,
+                                      ),
+                                    ),
+                                    AppSizes.s20.height,
+                                    Button.filled(
+                                      onPressed: () {
+                                        context.pushReplacement(OtpAuthPage());
+                                      },
+                                      label: 'Kirim OTP melalui email',
+                                    ),
+                                    AppSizes.s24.height,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         },
                         failed: (error) {
                           ScaffoldMessenger.of(

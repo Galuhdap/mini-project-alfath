@@ -6,7 +6,9 @@ import 'package:mini_project_alfath/presentation/auth/bloc/bloc/register_bloc.da
 import 'package:mini_project_alfath/presentation/auth/bloc/checkEmail/check_email_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/page/auth_role_page.dart';
+import 'package:mini_project_alfath/presentation/auth/page/auth_with_email_page.dart';
 import 'package:mini_project_alfath/presentation/auth/page/login_page.dart';
+import 'package:mini_project_alfath/presentation/auth/page/otp_auth_page.dart';
 import 'package:mini_project_alfath/presentation/auth/page/splash_page.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/connectivity/connectivity_bloc.dart';
 import 'package:mini_project_alfath/presentation/onBoarding/page/on_boarding_page.dart';
@@ -34,13 +36,14 @@ class MainPage extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        home: SplashPage(),
+        home: AuthWithEmailPage(),
 
         routes: {
           '/work': (context) => const WorkPage(),
           '/login': (context) => const LoginPage(),
           '/onBoarding': (context) => const OnBoardingPage(),
           '/auth/role': (context) => const AuthRolePage(),
+          '/otp': (context) => const OtpAuthPage(),
         },
       ),
     );
