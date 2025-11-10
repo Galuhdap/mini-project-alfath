@@ -12,11 +12,14 @@ class EmailLoginWidget extends StatelessWidget {
     required this.passwordController,
     required this.isLoginValid,
     required this.onLoginPressed,
+    this.isLoading = false,
   });
 
   final TextEditingController passwordController;
   final bool isLoginValid;
   final Function() onLoginPressed;
+    final bool isLoading;
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class EmailLoginWidget extends StatelessWidget {
           hintText: 'Masukkan Password',
         ),
         AppSizes.s24.height,
-        Button.filled(
+       isLoading? Center(child: CircularProgressIndicator(),) : Button.filled(
           onPressed: isLoginValid ? onLoginPressed : () {},
           label: 'Masuk',
           color: isLoginValid

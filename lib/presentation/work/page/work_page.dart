@@ -8,7 +8,7 @@ import 'package:mini_project_alfath/core/component/dialog/show_bottom_dialog.dar
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
-import 'package:mini_project_alfath/presentation/auth/bloc/bloc/login_bloc.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/bloc/bloc/working_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/widget/list/work_vacancy_list.dart';
 import 'package:mini_project_alfath/presentation/work/widget/search_work_vacancy_widget.dart';

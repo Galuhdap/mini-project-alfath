@@ -43,7 +43,6 @@ class JobSeekerService {
   Future<Either<String, GetDetailJobSeeker>> getJobDetail(String id) async {
     try {
       final result = await _remoteDatasource.getJobDetail(id);
-      print('ini data $result');
       return result;
     } catch (e) {
       return Left('Unexpected error: ${e.toString()}');

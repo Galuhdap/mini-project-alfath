@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:mini_project_alfath/data/datasource/auth/auth_local_datasource.dart';
 import 'package:mini_project_alfath/data/datasource/auth/auth_remote_datasource.dart';
+import 'package:mini_project_alfath/data/model/get_cek_email_response.dart';
 import 'package:mini_project_alfath/data/model/get_login_auth_response.dart';
 import 'package:mini_project_alfath/data/model/request/login_request.dart';
 
@@ -35,6 +36,44 @@ class AuthService {
         );
       },
     );
+  }
+
+  Future<Either<String, bool>> logout() async {
+    try {
+      final token = await getAuthToken();
+
+      if (token != null && token.isNotEmpty) {
+        _remoteDatasource
+            .logout(token)
+            .then((_) {
+              // Tidak perlu handle response karena sudah langsung clear local
+            })
+            .catchError((_) {
+              // Ignore error karena yang penting clear local auth berhasil
+            });
+      }
+
+      // await _localDatasource.resetOnboardingShown();
+      final authResult = await _localDatasource.clearAuthData();
+
+      if (authResult.isLeft()) {
+        return authResult;
+      }
+
+      return const Right(true);
+    } catch (e) {
+      return Left('Error during logout: $e');
+    }
+  }
+
+  Future<Either<String, CheckEmailResponse>> checkEmail(String email) async {
+    try {
+      final checkEmailResult = await _remoteDatasource.checkEmail(email);
+
+      return checkEmailResult;
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
   }
 
   /// Check apakah user sudah login
@@ -87,34 +126,6 @@ class AuthService {
   /// Mark onboarding as shown
   Future<Either<String, bool>> setOnboardingShown() async {
     return await _localDatasource.setOnboardingShown();
-  }
-
-  Future<Either<String, bool>> logout() async {
-    try {
-      final token = await getAuthToken();
-
-      if (token != null && token.isNotEmpty) {
-        _remoteDatasource
-            .logout(token)
-            .then((_) {
-              // Tidak perlu handle response karena sudah langsung clear local
-            })
-            .catchError((_) {
-              // Ignore error karena yang penting clear local auth berhasil
-            });
-      }
-
-      //await _localDatasource.resetOnboardingShown();
-      final authResult = await _localDatasource.clearAuthData();
-
-      if (authResult.isLeft()) {
-        return authResult;
-      }
-
-      return const Right(true);
-    } catch (e) {
-      return Left('Error during logout: $e');
-    }
   }
 
   /// Dispose resources

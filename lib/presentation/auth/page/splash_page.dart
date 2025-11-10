@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mini_project_alfath/core/assets/assets.gen.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/data/service/auth_service.dart';
-import 'package:mini_project_alfath/presentation/auth/bloc/bloc/login_bloc.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -73,8 +73,6 @@ class _SplashPageState extends State<SplashPage> {
     }
   }
 
-  
-
   /// 🧭 Navigasi ke OnboardingPage
   void _navigateToOnboarding() {
     if (!_hasNavigated && mounted) {
@@ -114,8 +112,6 @@ class _SplashPageState extends State<SplashPage> {
                 width: 160,
                 height: 54,
               ),
-              const SizedBox(height: 20),
-              const CircularProgressIndicator(color: Colors.white),
             ],
           ),
         ),
