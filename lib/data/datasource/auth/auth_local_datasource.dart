@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class AuthLocalHiveDatasource {
   static const String _boxName = 'auth_box';
   static const String _tokenKey = 'auth_token';
+  static const String _roleKey = 'auth_role';
   static const String _userKey = 'auth_user';
   static const String _isLoggedInKey = 'is_logged_in';
   static const String _onboardingShownKey = 'onboarding_shown';
@@ -58,6 +59,30 @@ class AuthLocalHiveDatasource {
         return Right(token);
       } else {
         return const Left('Token not found');
+      }
+    } catch (e) {
+      return Left('Error getting token: $e');
+    }
+  }
+
+  Future<Either<String, bool>> saveRole(String role) async {
+    try {
+      final box = await _openBox();
+      await box.put(_roleKey, role);
+      return const Right(true);
+    } catch (e) {
+      return Left('Error saving role: $e');
+    }
+  }
+
+  Future<Either<String, String>> getRole() async {
+    try {
+      final box = await _openBox();
+      final role = box.get(_roleKey);
+      if (role != null && role.isNotEmpty) {
+        return Right(role);
+      } else {
+        return const Left('Token not role');
       }
     } catch (e) {
       return Left('Error getting token: $e');

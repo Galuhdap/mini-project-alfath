@@ -3,7 +3,9 @@ import 'package:mini_project_alfath/data/datasource/auth/auth_local_datasource.d
 import 'package:mini_project_alfath/data/datasource/auth/auth_remote_datasource.dart';
 import 'package:mini_project_alfath/data/model/get_cek_email_response.dart';
 import 'package:mini_project_alfath/data/model/get_login_auth_response.dart';
+import 'package:mini_project_alfath/data/model/get_register_response.dart';
 import 'package:mini_project_alfath/data/model/request/login_request.dart';
+import 'package:mini_project_alfath/data/model/request/register_request.dart';
 
 class AuthService {
   final AuthRemoteDatasource _remoteDatasource;
@@ -34,6 +36,29 @@ class AuthService {
             return Right(authResponse);
           },
         );
+      },
+    );
+  }
+
+  Future<Either<String, GetRegisterAuthResponse>> register(
+    RegisterAuthRequest request,
+  ) async {
+    final getRoleResult = await _localDatasource.getRole();
+
+    return await getRoleResult.fold(
+      // jika gagal dapat role
+      (error) async => Left('Gagal mendapatkan role: $error'),
+
+      // jika berhasil dapat role
+      (role) async {
+        final registerResult = await _remoteDatasource.register(request, role);
+
+        return registerResult.fold((error) => Left(error), (
+          authResponse,
+        ) async {
+          await _localDatasource.saveToken(authResponse.data.token);
+          return Right(authResponse);
+        });
       },
     );
   }

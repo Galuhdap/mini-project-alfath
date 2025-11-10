@@ -6,7 +6,9 @@ import 'package:mini_project_alfath/core/component/input_component.dart';
 import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
-import 'package:mini_project_alfath/presentation/auth/bloc/bloc/check_email_bloc.dart';
+import 'package:mini_project_alfath/data/model/request/register_request.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/bloc/register_bloc.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/checkEmail/check_email_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/widget/email_login_widget.dart';
 import 'package:mini_project_alfath/presentation/auth/widget/registered_widget.dart';
@@ -199,12 +201,52 @@ class _AuthWithEmailPageState extends State<AuthWithEmailPage> {
                     ),
                   ),
                 ] else if (isEmailRegistered == false) ...[
-                  RegisteredWidget(
-                    nameController: nameController,
-                    phoneController: phoneController,
-                    passwordController: passwordController,
-                    confirmPasswordController: confirmPasswordController,
-                    onRegisterPressed: () {},
+                  BlocListener<RegisterBloc, RegisterState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        success: (user) {
+                           Navigator.pushReplacementNamed(context, '/work');
+                        },
+                        failed: (error) {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(error)));
+                        },
+                        orElse: () {},
+                      );
+                    },
+                    child: BlocBuilder<RegisterBloc, RegisterState>(
+                      builder: (context, state) {
+                        final isLoading = state.maybeWhen(
+                          loading: () => true,
+                          orElse: () => false,
+                        );
+
+                        if (isLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return RegisteredWidget(
+                          nameController: nameController,
+                          phoneController: phoneController,
+                          passwordController: passwordController,
+                          confirmPasswordController: confirmPasswordController,
+                          onRegisterPressed: () {
+                            var data = RegisterAuthRequest(
+                              name: nameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              phoneNumber: phoneController.text,
+                            );
+                            context.read<RegisterBloc>().add(
+                              RegisterEvent.registerRequested(data),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ]
                 // 🔹 Default state (belum dicek)

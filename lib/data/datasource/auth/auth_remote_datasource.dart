@@ -6,8 +6,11 @@ import 'package:mini_project_alfath/config/flavor_config.dart';
 import 'package:mini_project_alfath/core/utils/api_logger.dart';
 import 'package:mini_project_alfath/data/model/get_cek_email_response.dart';
 import 'package:mini_project_alfath/data/model/get_login_auth_response.dart';
+import 'package:mini_project_alfath/data/model/get_register_response.dart';
 import 'package:mini_project_alfath/data/model/request/login_request.dart';
+import 'package:mini_project_alfath/data/model/request/register_request.dart';
 import 'package:mini_project_alfath/data/service/lib/api_error_handler.dart';
+import 'package:crypto/crypto.dart';
 
 class AuthRemoteDatasource {
   final http.Client _client;
@@ -39,9 +42,8 @@ class AuthRemoteDatasource {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
-        
+
         final authResponse = GetLoginAuthResponse.fromJson(responseBody);
-        print('Auth Response : $authResponse');
         return Right(authResponse);
       } else {
         final errorMessage = ApiErrorHandler.mapError(response);
@@ -67,6 +69,12 @@ class AuthRemoteDatasource {
         },
       );
 
+      ApiLogger.logResponse(
+        url: url.toString(),
+        statusCode: response.statusCode,
+        responseBody: response.body,
+      );
+
       if (response.statusCode == 200 || response.statusCode == 204) {
         return const Right(true);
       } else {
@@ -90,10 +98,62 @@ class AuthRemoteDatasource {
         body: jsonEncode({"email": email}),
       );
 
+      // ApiLogger.logResponse(
+      //   url: url.toString(),
+      //   statusCode: response.statusCode,
+      //   responseBody: response.body,
+      // );
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
 
         final authResponse = CheckEmailResponse.fromJson(responseBody);
+        return Right(authResponse);
+      } else {
+        final errorMessage = ApiErrorHandler.mapError(response);
+        return Left(errorMessage);
+      }
+    } catch (e) {
+      return Left(
+        'Network error: Failed to connect to server - ${e.toString()}',
+      );
+    }
+  }
+
+  Future<Either<String, GetRegisterAuthResponse>> register(
+    RegisterAuthRequest request,
+    String role,
+  ) async {
+    try {
+
+      var bytes = utf8.encode(role);
+      var digest = sha256.convert(bytes);
+
+      final url = Uri.parse('$baseUrl/register');
+
+      final response = await _client.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          "X-Role-Hash": digest.toString(),
+        },
+        body: jsonEncode(request.toJson()),
+      );
+
+      print('role: $role');
+
+      ApiLogger.logResponse(
+        url: url.toString(),
+        statusCode: response.statusCode,
+        responseBody: response.body,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+
+        final authResponse = GetRegisterAuthResponse.fromJson(responseBody);
         return Right(authResponse);
       } else {
         final errorMessage = ApiErrorHandler.mapError(response);

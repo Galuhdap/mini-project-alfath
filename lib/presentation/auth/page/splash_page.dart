@@ -69,7 +69,7 @@ class _SplashPageState extends State<SplashPage> {
   void _navigateToLogin() {
     if (!_hasNavigated && mounted) {
       _hasNavigated = true;
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacementNamed(context, '/auth/role');
     }
   }
 

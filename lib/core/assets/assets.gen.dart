@@ -34,8 +34,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/mail.svg
   SvgGenImage get mail => const SvgGenImage('assets/icons/mail.svg');
 
+  /// File path: assets/icons/perusahaan.svg
+  SvgGenImage get perusahaan =>
+      const SvgGenImage('assets/icons/perusahaan.svg');
+
   /// File path: assets/icons/reload.svg
   SvgGenImage get reload => const SvgGenImage('assets/icons/reload.svg');
+
+  /// File path: assets/icons/user.svg
+  SvgGenImage get user => const SvgGenImage('assets/icons/user.svg');
 
   /// List of all assets
   List<SvgGenImage> get values => [
@@ -44,7 +51,9 @@ class $AssetsIconsGen {
     iconKerjarKarirmu,
     kejarKarirmu,
     mail,
+    perusahaan,
     reload,
+    user,
   ];
 }
 
