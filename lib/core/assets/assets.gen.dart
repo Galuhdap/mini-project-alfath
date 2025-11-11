@@ -41,6 +41,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/reload.svg
   SvgGenImage get reload => const SvgGenImage('assets/icons/reload.svg');
 
+  /// File path: assets/icons/security.svg
+  SvgGenImage get security => const SvgGenImage('assets/icons/security.svg');
+
   /// File path: assets/icons/user.svg
   SvgGenImage get user => const SvgGenImage('assets/icons/user.svg');
 
@@ -53,6 +56,7 @@ class $AssetsIconsGen {
     mail,
     perusahaan,
     reload,
+    security,
     user,
   ];
 }

@@ -93,7 +93,7 @@ class JobSeekerRemoteDatasource {
   Future<Either<String, GetDetailJobSeeker>> getJobDetail(String id) async {
     try {
       final token = await _localDatasource.getTokenDirect();
-      print(token);
+
       if (token == null || token.isEmpty) {
         return const Left('Token tidak ditemukan. Silakan login ulang.');
       }
@@ -107,17 +107,11 @@ class JobSeekerRemoteDatasource {
         },
       );
 
-      print('🔗 Request URL Remote: $url');
-      print('response status code: ${response.statusCode}');
-      print('📦 Response Remote: ${response.body}');
-
       if (response.statusCode == 200) {
         final Map<String, dynamic> body = json.decode(response.body);
         final detail = GetDetailJobSeeker.fromJson(body);
-        print('adasda: $detail');
         return Right(detail);
       } else {
-        print('Error Bosss');
         return Left('Failed to load job detail: ${response.statusCode}');
       }
     } catch (e) {

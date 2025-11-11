@@ -34,7 +34,7 @@ class AuthRolePage extends StatelessWidget {
                       opacity: 0.25,
                       child: Image.asset(Assets.images.bgLogin.path),
                     ),
-                    Container(height: 310, color: AppColors.colorGeneralWhite),
+                    Container(height: 350, color: AppColors.colorGeneralWhite),
                   ],
                 ),
                 Container(

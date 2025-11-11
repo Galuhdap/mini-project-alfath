@@ -4,6 +4,8 @@ import 'package:mini_project_alfath/data/datasource/auth/auth_remote_datasource.
 import 'package:mini_project_alfath/data/model/get_cek_email_response.dart';
 import 'package:mini_project_alfath/data/model/get_login_auth_response.dart';
 import 'package:mini_project_alfath/data/model/get_register_response.dart';
+import 'package:mini_project_alfath/data/model/get_sent_otp_verification_response.dart';
+import 'package:mini_project_alfath/data/model/post_send_otp_response.dart';
 import 'package:mini_project_alfath/data/model/request/login_request.dart';
 import 'package:mini_project_alfath/data/model/request/register_request.dart';
 
@@ -14,7 +16,11 @@ class AuthService {
   AuthService({
     AuthRemoteDatasource? remoteDatasource,
     AuthLocalHiveDatasource? localDatasource,
-  }) : _remoteDatasource = remoteDatasource ?? AuthRemoteDatasource(),
+  }) : _remoteDatasource =
+           remoteDatasource ??
+           AuthRemoteDatasource(
+             localDatasource: localDatasource ?? AuthLocalHiveDatasource(),
+           ),
        _localDatasource = localDatasource ?? AuthLocalHiveDatasource();
 
   Future<Either<String, GetLoginAuthResponse>> login(
@@ -96,6 +102,29 @@ class AuthService {
       final checkEmailResult = await _remoteDatasource.checkEmail(email);
 
       return checkEmailResult;
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  Future<Either<String, SendOtpResponse>> sendOTPEmail() async {
+    try {
+      final checkEmailResult = await _remoteDatasource.sendOTPEmail();
+
+      return checkEmailResult;
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  Future<Either<String, SendOtpVerificationResponse>> verificationOTPEmail(
+    String otp,
+  ) async {
+    try {
+      final verificationEmailResult = await _remoteDatasource
+          .verificationOTPEmail(otp);
+
+      return verificationEmailResult;
     } catch (e) {
       return Left('Unexpected error: ${e.toString()}');
     }

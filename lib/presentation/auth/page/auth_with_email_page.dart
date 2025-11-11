@@ -9,7 +9,8 @@ import 'package:mini_project_alfath/core/extensions/sized_box_ext.dart';
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/data/model/request/register_request.dart';
-import 'package:mini_project_alfath/presentation/auth/bloc/bloc/register_bloc.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/otp/otp_bloc.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/checkEmail/check_email_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/page/otp_auth_page.dart';
@@ -210,40 +211,120 @@ class _AuthWithEmailPageState extends State<AuthWithEmailPage> {
                         success: (user) {
                           showModalBottom(
                             context,
-                            SafeArea(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: AppSizes.s24,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AppSizes.s24.height,
-                                    Text(
-                                      'Kirim kode OTP',
-                                      style: ThemeConfig.bodyMedium.copyWith(
-                                        fontWeight: FontWeight.w500,
+                            BlocListener<OtpBloc, OtpState>(
+                              listener: (context, state) {
+                                state.maybeWhen(
+                                  loading: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Mengirim kode OTP...'),
+                                      ),
+                                    );
+                                  },
+                                  success: (_) {
+                                    Navigator.pop(context); // tutup modal
+                                    context.pushReplacement(
+                                      const OtpAuthPage(),
+                                    );
+                                  },
+                                  failed: (error) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(error)),
+                                    );
+                                  },
+                                  orElse: () {},
+                                );
+                              },
+                              child: BlocConsumer<OtpBloc, OtpState>(
+                                listener: (context, state) {
+                                  state.maybeWhen(
+                                    success: (_) {
+                                      //Navigator.pop(context); // tutup modal
+                                      context.pushReplacement(
+                                        const OtpAuthPage(),
+                                      );
+                                    },
+                                    failed: (error) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(content: Text(error)),
+                                      );
+                                    },
+                                    orElse: () {},
+                                  );
+                                },
+                                builder: (context, state) {
+                                  final isLoading = state.maybeWhen(
+                                    loading: () => true,
+                                    orElse: () => false,
+                                  );
+                                  return SafeArea(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: AppSizes.s24,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppSizes.s24.height,
+                                          Text(
+                                            'Kirim kode OTP',
+                                            style: ThemeConfig.bodyMedium
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                          ),
+                                          AppSizes.s8.height,
+                                          Text(
+                                            'Registrasi akun berhasil! Silakan pilih metode pengiriman kode OTP',
+                                            style: ThemeConfig.labelSmall
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: AppSizes.s12,
+                                                  color: AppColors
+                                                      .colorGeneralGrey,
+                                                ),
+                                          ),
+                                          AppSizes.s20.height,
+                                          AnimatedSwitcher(
+                                            duration: const Duration(
+                                              milliseconds: 250,
+                                            ),
+                                            child: isLoading
+                                                ? const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  )
+                                                : Button.filled(
+                                                    onPressed: () {
+                                                      // ✅ Tampilkan SnackBar
+                                                      ScaffoldMessenger.of(
+                                                        context,
+                                                      ).showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            'Mengirim kode OTP...',
+                                                          ),
+                                                        ),
+                                                      );
+
+                                                      // ✅ Trigger kirim OTP via Bloc
+                                                      context.read<OtpBloc>().add(
+                                                        const OtpEvent.sendEmailOtp(),
+                                                      );
+                                                    },
+                                                    label:
+                                                        'Kirim OTP melalui email',
+                                                  ),
+                                          ),
+                                          AppSizes.s24.height,
+                                        ],
                                       ),
                                     ),
-                                    AppSizes.s8.height,
-                                    Text(
-                                      'Registrasi akun berhasil! Silakan pilih metode pengiriman kode OTP',
-                                      style: ThemeConfig.labelSmall.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: AppSizes.s12,
-                                        color: AppColors.colorGeneralGrey,
-                                      ),
-                                    ),
-                                    AppSizes.s20.height,
-                                    Button.filled(
-                                      onPressed: () {
-                                        context.pushReplacement(OtpAuthPage());
-                                      },
-                                      label: 'Kirim OTP melalui email',
-                                    ),
-                                    AppSizes.s24.height,
-                                  ],
-                                ),
+                                  );
+                                },
                               ),
                             ),
                           );
