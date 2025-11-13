@@ -147,7 +147,7 @@ class _DetailWorkPageState extends State<DetailWorkPage> {
                           borderRadius: BorderRadius.circular(AppSizes.s4),
                         ),
                         child: Text(
-                          detail.data.lamaran.isApply ? 'Applied' : 'Open',
+                          detail.data.pekerjaan.status == "Active" ? 'Open' : 'Close',
                           style: ThemeConfig.bodyMedium.copyWith(
                             fontSize: AppSizes.s12,
                             color: AppColors.colorSuccess,

@@ -8,6 +8,7 @@ import 'package:mini_project_alfath/core/component/dialog/show_bottom_dialog.dar
 import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/data/model/get_job_seeker_response.dart';
+import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/bloc/bloc/working_bloc.dart';
 import 'package:mini_project_alfath/presentation/work/widget/list/work_vacancy_list.dart';
 import 'package:mini_project_alfath/presentation/work/widget/search_work_vacancy_widget.dart';
@@ -110,6 +111,36 @@ class _WorkPageState extends State<WorkPage> {
           'Lowongan Pekerjaan',
           style: ThemeConfig.titleMedium.copyWith(fontSize: AppSizes.s18),
         ),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        actions: [
+          BlocBuilder<LoginBloc, LoginState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: state.maybeWhen(
+                  loading: () => null, // Disable when loading
+                  orElse: () =>
+                      () => _showLogoutDialog(context),
+                ),
+                icon: state.when(
+                  initial: () => const Icon(Icons.logout),
+                  loading: () => const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+                  success: (_) => const Icon(Icons.logout),
+                  failed: (_) => const Icon(Icons.logout),
+                  authenticated: (_) => const Icon(Icons.logout),
+                  unauthenticated: () => const Icon(Icons.logout),
+                ),
+              );
+            },
+          ),
+        ],
         backgroundColor: AppColors.colorGeneralWhite,
       ),
       body: Padding(
@@ -177,6 +208,33 @@ class _WorkPageState extends State<WorkPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pushReplacementNamed(context, '/login');
+                context.read<LoginBloc>().add(
+                  const LoginEvent.logoutRequested(),
+                );
+              },
+              child: const Text('Logout', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

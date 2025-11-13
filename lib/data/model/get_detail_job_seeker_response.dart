@@ -35,52 +35,20 @@ class GetDetailJobSeeker {
 class Data {
     final Pekerjaan pekerjaan;
     final Perusahaan perusahaan;
-    final Lamaran lamaran;
 
     Data({
         required this.pekerjaan,
         required this.perusahaan,
-        required this.lamaran,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         pekerjaan: Pekerjaan.fromJson(json["pekerjaan"]),
         perusahaan: Perusahaan.fromJson(json["perusahaan"]),
-        lamaran: Lamaran.fromJson(json["lamaran"]),
     );
 
     Map<String, dynamic> toJson() => {
         "pekerjaan": pekerjaan.toJson(),
         "perusahaan": perusahaan.toJson(),
-        "lamaran": lamaran.toJson(),
-    };
-}
-
-class Lamaran {
-    final String key;
-    final String status;
-    final DateTime waktu;
-    final bool isApply;
-
-    Lamaran({
-        required this.key,
-        required this.status,
-        required this.waktu,
-        required this.isApply,
-    });
-
-    factory Lamaran.fromJson(Map<String, dynamic> json) => Lamaran(
-        key: json["key"],
-        status: json["status"],
-        waktu: DateTime.parse(json["waktu"]),
-        isApply: json["isApply"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "key": key,
-        "status": status,
-        "waktu": waktu.toIso8601String(),
-        "isApply": isApply,
     };
 }
 
