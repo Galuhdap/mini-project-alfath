@@ -8,11 +8,9 @@ import 'package:mini_project_alfath/presentation/auth/bloc/register/register_blo
 import 'package:mini_project_alfath/presentation/auth/bloc/checkEmail/check_email_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:mini_project_alfath/presentation/auth/page/auth_role_page.dart';
-import 'package:mini_project_alfath/presentation/auth/page/auth_with_email_page.dart';
 import 'package:mini_project_alfath/presentation/auth/page/login_page.dart';
 import 'package:mini_project_alfath/presentation/auth/page/otp_auth_page.dart';
 import 'package:mini_project_alfath/presentation/auth/page/splash_page.dart';
-import 'package:mini_project_alfath/presentation/auth/page/succes_otp_page.dart';
 import 'package:mini_project_alfath/presentation/connectivity/bloc/connectivity/connectivity_bloc.dart';
 import 'package:mini_project_alfath/presentation/onBoarding/page/on_boarding_page.dart';
 import 'package:mini_project_alfath/presentation/work/bloc/bloc/working_bloc.dart';

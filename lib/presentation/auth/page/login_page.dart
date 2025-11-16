@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mini_project_alfath/config/google_signin_config.dart';
 import 'package:mini_project_alfath/config/theme_config.dart';
 import 'package:mini_project_alfath/core/assets/assets.gen.dart';
 import 'package:mini_project_alfath/core/component/buttons.dart';
@@ -9,8 +11,60 @@ import 'package:mini_project_alfath/core/styles/app_colors.dart';
 import 'package:mini_project_alfath/core/styles/app_sizes.dart';
 import 'package:mini_project_alfath/presentation/auth/page/auth_with_email_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  GoogleSignInAccount? user;
+
+  Future<void> _handleGoogleLogin() async {
+    try {
+      // Login & ambil user
+      final _user = await GoogleSigninConfig.login();
+
+      if (!mounted) return;
+
+      if (_user != null) {
+        // Ambil token
+        final auth = await _user.authentication;
+        final idToken = auth.idToken;
+        final accessToken = auth.accessToken;
+
+        setState(() {
+          user = _user;
+        });
+
+        print("===== GOOGLE SIGN-IN SUCCESS =====");
+        print("ID: ${_user.id}");
+        print("Nama: ${_user.displayName}");
+        print("Email: ${_user.email}");
+        print("Foto: ${_user.photoUrl}");
+        print("ID Token: $idToken");
+        print("Access Token: $accessToken");
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Berhasil login: ${_user.displayName}')),
+        );
+      } else {
+        print('Login dibatalkan oleh pengguna');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login dibatalkan oleh pengguna')),
+        );
+      }
+    } catch (e) {
+      print("Google Sign-In Error: $e");
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Login gagal: $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +87,7 @@ class LoginPage extends StatelessWidget {
                       opacity: 0.25,
                       child: Image.asset(Assets.images.bgLogin.path),
                     ),
-                    Container(height: 310, color: AppColors.colorGeneralWhite,),
+                    Container(height: 310, color: AppColors.colorGeneralWhite),
                   ],
                 ),
                 Container(
@@ -72,7 +126,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       AppSizes.s24.height,
                       Button.outlined(
-                        onPressed: () {},
+                        onPressed: _handleGoogleLogin,
                         label: 'Lanjutkan dengan Google',
                         fontSize: 14,
                         borderColor: AppColors.colorGeneralOutline,
@@ -84,6 +138,14 @@ class LoginPage extends StatelessWidget {
                         onPressed: () {
                           context.push(AuthWithEmailPage());
                         },
+                        // onPressed: () async {
+                        //   await GoogleSigninConfig.logout();
+                        //   setState(() => user = null);
+
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     const SnackBar(content: Text('Logout berhasil')),
+                        //   );
+                        // },
                         label: 'Lanjutkan dengan Email',
                         fontSize: 14,
                         borderColor: AppColors.colorGeneralOutline,

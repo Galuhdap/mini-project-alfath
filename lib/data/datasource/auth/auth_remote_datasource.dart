@@ -63,6 +63,7 @@ class AuthRemoteDatasource {
     }
   }
 
+
   Future<Either<String, bool>> logout(String token) async {
     try {
       final url = Uri.parse('$baseUrl/auth/logout');
